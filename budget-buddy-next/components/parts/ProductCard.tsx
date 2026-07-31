@@ -48,6 +48,7 @@ const ProductCard = ({ item, onAdd }: ProductCardProps) => {
                             fill
                             sizes="(max-width: 768px) 50vw, 33vw"
                             draggable={false}
+                            unoptimized
                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                     ) : (

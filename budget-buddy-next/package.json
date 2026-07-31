@@ -3,9 +3,9 @@
     "version": "2.2.9",
     "private": true,
     "scripts": {
-        "dev": "next dev -p 5173",
+        "dev": "next dev -p 5173 --webpack",
         "build": "next build",
-        "start": "next start -p 5173",
+        "start": "npx serve@latest out",
         "lint": "eslint"
     },
     "dependencies": {
@@ -23,9 +23,11 @@
         "neverthrow": "^8.2.0",
         "next": "16.2.4",
         "next-themes": "^0.4.6",
+        "qrcode.react": "^4.2.0",
         "radix-ui": "^1.4.3",
         "react": "19.2.4",
         "react-dom": "19.2.4",
+        "react-markdown": "^10.1.0",
         "react-redux": "^9.2.0",
         "shadcn": "^4.4.0",
         "tailwind-merge": "^3.5.0",

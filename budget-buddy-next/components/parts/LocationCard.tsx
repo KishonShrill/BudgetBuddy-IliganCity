@@ -80,6 +80,7 @@ const LocationCard = ({ item }: LocationCardProps) => {
                     alt={`${match} logo`}
                     fill
                     className="object-contain p-4 transition-transform duration-300 group-hover:scale-110"
+                    unoptimized
                     sizes="(max-width: 768px) 50vw, 25vw"
                 />
                 <div className="absolute inset-0 bg-black/5 opacity-0 transition-opacity group-hover:opacity-100" />

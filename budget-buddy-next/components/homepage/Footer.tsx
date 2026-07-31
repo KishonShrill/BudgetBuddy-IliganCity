@@ -130,6 +130,7 @@ const Footer = () => {
                                         alt={social.label}
                                         width={20}
                                         height={20}
+                                        unoptimized
                                         className={`group-hover:scale-110 transition-transform duration-300 text-white `}
                                     />
                                 </a>

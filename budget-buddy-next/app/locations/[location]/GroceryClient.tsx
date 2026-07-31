@@ -252,7 +252,7 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
                     <div className="flex h-full w-full flex-col overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black/5">
                         {card.productImage && (
                             <div className="relative aspect-square h-38 bg-gray-50">
-                                <Image src={card.productImage} alt="" fill className="object-cover" />
+                                <Image src={card.productImage} alt="" fill className="object-cover" unoptimized />
                             </div>
                         )}
                         <div className="p-2">

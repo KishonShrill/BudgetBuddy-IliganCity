@@ -11,6 +11,8 @@ const LOCATIONS_URL = DEVELOPMENT
     ? `http://${LOCALHOST}:5000/api/${API_VERSION}/locations`
     : `https://iliganproductprice-mauve.vercel.app/api/${API_VERSION}/locations`;
 
+export const dynamic = "force-static"
+
 // 2. Fetch logic for dynamic routes
 async function getLocations() {
     try {

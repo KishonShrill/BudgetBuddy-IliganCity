@@ -38,9 +38,6 @@ const LocationCard = ({ item }: LocationCardProps) => {
         return { shortName: name, match: foundMatch };
     }, [item.location_name]);
 
-    // If no logo match is found, we can either hide it or show a placeholder
-    if (!match) return null;
-
     const buildMapUrl = () => {
         const link = item.coordinates?.link;
         if (link) return link;
@@ -73,17 +70,23 @@ const LocationCard = ({ item }: LocationCardProps) => {
                 <MapPin size={18} />
             </a>
 
-            {/* Logo Area */}
+            {/* Logo Area with Placeholder Fallback */}
             <div className="relative flex aspect-video w-full items-center justify-center bg-gray-50 dark:bg-gray-900/50 p-6 overflow-hidden">
-                <Image
-                    src={storeImages[match]}
-                    alt={`${match} logo`}
-                    fill
-                    className="object-contain p-4 transition-transform duration-300 group-hover:scale-110"
-                    unoptimized
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                />
-                <div className="absolute inset-0 bg-black/5 opacity-0 transition-opacity group-hover:opacity-100" />
+                {match ? (
+                    <Image
+                        src={storeImages[match]}
+                        alt={`${match} logo`}
+                        fill
+                        className="object-contain p-4 transition-transform duration-300 group-hover:scale-110"
+                        unoptimized
+                        sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                ) : (
+                    <div className="flex flex-col items-center justify-center text-gray-300 dark:text-gray-600 transition-transform duration-300 group-hover:scale-110">
+                        <Store size={48} strokeWidth={1.5} />
+                    </div>
+                )}
+                <div className="absolute inset-0 bg-black/5 dark:bg-black/20 opacity-0 transition-opacity group-hover:opacity-100" />
             </div>
 
             {/* Text Area */}

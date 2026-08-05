@@ -8,23 +8,11 @@ import * as Separator from '@radix-ui/react-separator';
 import * as Select from '@radix-ui/react-select';
 import * as Switch from '@radix-ui/react-switch';
 import {
-    Settings as SettingsIcon,
-    Moon,
-    Sun,
-    Globe,
-    Bell,
-    DollarSign,
-    Volume2,
-    Palette,
-    Zap,
-    RotateCcw,
-    X,
-    ChevronDown,
-    Check,
-    ArrowLeft,
+    Settings as SettingsIcon, Moon, Sun, Bell,
+    Volume2, Palette, Zap, RotateCcw, X,
+    ChevronDown, Check, ArrowLeft,
 } from 'lucide-react';
 import useSettings from '@/hooks/useSettings';
-import { AppSettings } from '@/helpers/settings';
 
 const Settings = () => {
     const router = useRouter();

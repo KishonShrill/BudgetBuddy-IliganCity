@@ -22,12 +22,10 @@ const useFetchListingsByLocation = (location: string | null) => {
             }
         );
 
-        // React Query needs an actual thrown error to trigger `isError`
         if (result.isErr()) {
             throw result.error;
         }
 
-        // Return just the data payload to keep your components clean
         return result.value.data;
     };
 

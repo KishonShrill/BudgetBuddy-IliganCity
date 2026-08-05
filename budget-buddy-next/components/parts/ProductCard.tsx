@@ -26,18 +26,20 @@ export interface ProductItem {
 interface ProductCardProps {
     item: ProductItem;
     onAdd?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    onViewHistory?: (item: ProductItem) => void;
 }
 
-const ProductCard = ({ item, onAdd }: ProductCardProps) => {
+const ProductCard = ({ item, onAdd, onViewHistory }: ProductCardProps) => {
     const { settings } = useSettings();
 
     return (
         <div
-            // Using a ternary operator here prevents Tailwind from injecting a literal "false" string into the DOM
-            className={`product-card ${!settings.hidePhotos && 'grid-cols-2'} group max-sm:grid max-sm:gap-3 flex flex-col overflow-hidden rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800 p-3 shadow-sm transition-all duration-300 hover:shadow-lg dark:hover:shadow-orange-900/10 dark:hover:border-gray-700`}
+            className={`product-card ${!settings.hidePhotos && 'grid-cols-2'} ${onViewHistory ? 'cursor-pointer' : ''} group max-sm:grid max-sm:gap-3 flex flex-col overflow-hidden rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-3 shadow-sm transition-all duration-300 hover:shadow-lg dark:hover:shadow-orange-900/10 dark:hover:border-gray-700`}
             data-product-id={item._id}
             data-product-name={item.product.product_name}
             data-product-price={item.updated_price}
+            onClick={() => onViewHistory?.(item)}
+            title={onViewHistory ? "View Price History" : undefined}
         >
             {!settings.hidePhotos && (
                 <div className="relative h-full aspect-square w-full overflow-hidden rounded-xl bg-gray-50 dark:bg-gray-900">
@@ -62,13 +64,11 @@ const ProductCard = ({ item, onAdd }: ProductCardProps) => {
                     {/* Floating Location Tag */}
                     <div className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-black/70 px-2 py-1 text-[10px] font-medium text-white backdrop-blur-md">
                         <MapPin size={10} className="text-orange-400" />
-                        {/* Restored exact max-w-[100px] to fix mobile stretching */}
                         <span className="max-w-[100px] truncate">{item.location.name.split(' - ')[0]}</span>
                     </div>
                 </div>
             )}
 
-            {/* Restored sm:mt-4 to match your original flex spacing */}
             <div className="sm:mt-4 flex flex-1 flex-col">
                 <h3 className="line-clamp-2 text-sm font-bold leading-tight text-gray-800 dark:text-gray-100">
                     {item.product.product_name}
@@ -100,7 +100,10 @@ const ProductCard = ({ item, onAdd }: ProductCardProps) => {
                             data-product-price={item.updated_price}
                             data-product-location={item.location.name}
                             data-product-image={item.product.imageUrl}
-                            onClick={onAdd}
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevents triggering onViewHistory when clicking 'Add'
+                                onAdd(e);
+                            }}
                             className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500 dark:bg-orange-600 text-white shadow-md dark:shadow-orange-900/20 transition-transform hover:scale-110 hover:bg-orange-600 dark:hover:bg-orange-500 active:scale-95"
                             aria-label="Add to cart"
                         >

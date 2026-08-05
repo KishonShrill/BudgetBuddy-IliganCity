@@ -12,10 +12,7 @@ const useFetchListings = (token: string | undefined, totalItems = 0) => {
         : `https://iliganproductprice-mauve.vercel.app/api/${API_VERSION}/listings`;
 
     return useQuery({
-        // 1. Query Key is now part of an object
         queryKey: ['fetchedListings_Admin', totalItems, token],
-
-        // 2. The query function
         queryFn: async () => {
             if (!token) throw new Error("No token provided");
 
@@ -27,8 +24,6 @@ const useFetchListings = (token: string | undefined, totalItems = 0) => {
             const response = await axios.get<ProductItem[]>(DATABASE_URL, config);
             return response.data;
         },
-
-        // 3. Configuration (Updated for v5)
         gcTime: 1000 * 60 * 5,   // Formerly cacheTime
         staleTime: 1000 * 60 * 2,
         refetchOnWindowFocus: false,

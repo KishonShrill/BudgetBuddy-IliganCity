@@ -69,7 +69,7 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
         const price = parseFloat(productPrice || "0");
 
         const card = el.closest('.product-card');
-        const cartButton = (windowWidth < 768) ? cartButtonRef.current : cartRef.current; // Changed 700 to 768 (md breakpoint)
+        const cartButton = (windowWidth < 768) ? cartButtonRef.current : cartRef.current;
 
         if (!card || !cartButton) return;
 
@@ -119,27 +119,12 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
         }) || [];
     }, [data, search, selectedCatalog]);
 
-    // Calculate total quantity for the mobile badge
     const totalQty = Object.values(cartItems).reduce((sum, item: any) => sum + item.quantity, 0);
 
-    if (isLoading || isFetching) {
-        return (
-            <main className='flex min-h-[calc(100vh-62px)] items-center justify-center bg-white dark:bg-gray-900'>
-                <h2 className="text-2xl font-bold dark:text-white">Loading<span className="animated-dots"></span></h2>
-            </main>
-        );
-    }
-
-    if (isError) {
-        return (
-            <main className='flex min-h-[calc(100vh-62px)] items-center justify-center bg-white dark:bg-gray-900'>
-                <h2 className="text-red-500">Error: {error?.message}</h2>
-            </main>
-        );
-    }
+    // REMOVED THE EARLY RETURN IF BLOCKS HERE
 
     return (
-        <div className="h-[calc(100vh-62px)] overflow-y-auto overflow-x-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <div className="h-[calc(100dvh-134px)] md:h-[calc(100dvh-62px)] overflow-y-auto overflow-x-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
             {/* Audio Element */}
             <audio ref={audioRef} src="/sounds/click-pop.mp3" preload="auto" />
 
@@ -151,7 +136,7 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
                     placeholder="Search products..."
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <Link href="/locations" className="p-2 rounded-md border-2 border-transparent bg-white hover:border-[#ee4d2d] transition-colors shadow-[0_2px_5px_rgba(0,0,0,0.1)]">
+                <Link href="/locations" className="p-2 rounded-md border-2 border-transparent bg-white dark:bg-[#ee4d2d] dark:hover:bg-[#d63916] hover:border-[#ee4d2d] transition-colors shadow-[0_2px_5px_rgba(0,0,0,0.1)]">
                     <ArrowLeft className="w-6 h-6 dark:text-white" />
                 </Link>
             </div>
@@ -185,35 +170,50 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
 
                 {/* LEFT SIDE: Product Grid */}
                 <section className="flex-1 min-w-0 transition-colors">
-                    <main className={`grid ${!settings.hidePhotos ? 'max-sm:grid-cols-1' : 'grid-cols-2'} grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6`}>
-                        {filteredProducts
-                            .sort((a: any, b: any) => a.product.product_name.localeCompare(b.product.product_name))
-                            .map((item: any) => (
-                                <ProductCard
-                                    key={item._id}
-                                    item={item}
-                                    onAdd={(event) => handleClick(event.currentTarget)}
-                                />
-                            ))}
 
-                        {filteredProducts.length === 0 && (
-                            <div className="col-span-full py-20 text-center">
-                                <p className="text-gray-500 dark:text-gray-400">No products found for <b className="text-[#ee4d2d]">{search}</b></p>
-                                <Button
-                                    variant="outline"
-                                    className="mt-6 border-[#ee4d2d] text-[#ee4d2d] hover:bg-[#ee4d2d] hover:text-white"
-                                    onClick={() => {
-                                        setSearch('');
-                                        if (searchbarRef.current) searchbarRef.current.value = '';
-                                    }}
-                                >
-                                    Clear Filters
-                                </Button>
-                            </div>
-                        )}
-                    </main>
+                    {/* CONDITIONALLY RENDER LOADING, ERROR, OR PRODUCTS HERE */}
+                    {isLoading || isFetching ? (
+                        <div className="flex min-h-[40vh] items-center justify-center">
+                            <h2 className="text-2xl font-bold dark:text-white">Loading<span className="animated-dots"></span></h2>
+                        </div>
+                    ) : isError ? (
+                        <div className="flex min-h-[40vh] items-center justify-center">
+                            <h2 className="text-red-500 font-medium">Error: {error?.message}</h2>
+                        </div>
+                    ) : (
+                        <>
+                            <main className={`grid ${!settings.hidePhotos ? 'max-sm:grid-cols-1' : 'grid-cols-2'} grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6`}>
+                                {filteredProducts
+                                    .sort((a: any, b: any) => a.product.product_name.localeCompare(b.product.product_name))
+                                    .map((item: any) => (
+                                        <ProductCard
+                                            key={item._id}
+                                            item={item}
+                                            onAdd={(event) => handleClick(event.currentTarget)}
+                                        />
+                                    ))}
+                            </main>
 
-                    <div className="mt-12 flex flex-wrap justify-center gap-x-1 text-gray-500 dark:text-gray-400">
+                            {/* Empty State when no products match the search filter */}
+                            {filteredProducts.length === 0 && (
+                                <div className="py-20 text-center w-full">
+                                    <p className="text-gray-500 dark:text-gray-400">No products found for <b className="text-[#ee4d2d]">{search}</b></p>
+                                    <Button
+                                        variant="outline"
+                                        className="mt-6 border-[#ee4d2d] text-[#ee4d2d] hover:bg-[#ee4d2d] hover:text-white"
+                                        onClick={() => {
+                                            setSearch('');
+                                            if (searchbarRef.current) searchbarRef.current.value = '';
+                                        }}
+                                    >
+                                        Clear Filters
+                                    </Button>
+                                </div>
+                            )}
+                        </>
+                    )}
+
+                    <div className="mt-12 flex flex-wrap justify-center gap-x-1 text-gray-500 dark:text-gray-900">
                         <p className="text-center">Don&apos;t see the product you&apos;re looking for?</p>
                         <Link href="/contribution/hub" className="text-orange-500 hover:font-bold">Contribute with us</Link>
                     </div>

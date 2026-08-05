@@ -137,9 +137,9 @@ export default function ReceiptClient() {
     };
 
     return (
-        <div className="min-h-[calc(100vh-62px)] bg-gray-50 dark:bg-gray-900 py-8 transition-colors duration-300">
+        <div className="min-h-[calc(100dvh-62px)] bg-gray-50 dark:bg-gray-900 sm:py-8 transition-colors duration-300">
             <div
-                className="receipt-container max-w-lg mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 max-md:m-4"
+                className="receipt-container sm:max-w-lg mx-auto bg-white dark:bg-gray-800 sm:rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-8"
                 ref={receiptRef}
             >
                 <h2 className='text-center font-black text-2xl text-gray-900 dark:text-white mb-8'>
@@ -183,33 +183,33 @@ export default function ReceiptClient() {
                             <span>Total:</span>
                             <span className="text-[#ee4d2d] dark:text-orange-400">₱{total.toFixed(2)}</span>
                         </div>
-
-                        {/* Action Buttons (Filtered out during image download) */}
-                        <div className="receipt-actions mt-10 grid grid-cols-3 gap-3">
-                            <button
-                                onClick={copyReceiptAsText}
-                                className="download-btn flex flex-col items-center justify-center gap-2 p-3 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-xs font-semibold"
-                            >
-                                <Copy className="w-5 h-5" />
-                                Text
-                            </button>
-                            <button
-                                onClick={downloadReceiptAsCSV}
-                                className="download-btn flex flex-col items-center justify-center gap-2 p-3 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-xs font-semibold"
-                            >
-                                <FileDown className="w-5 h-5" />
-                                CSV
-                            </button>
-                            <button
-                                onClick={downloadReceiptAsImage}
-                                className="download-btn flex flex-col items-center justify-center gap-2 p-3 rounded-lg bg-[#ee4d2d] text-white hover:bg-[#d63916] transition-colors text-xs font-semibold"
-                            >
-                                <ImageDown className="w-5 h-5" />
-                                Image
-                            </button>
-                        </div>
                     </>
                 )}
+            </div>
+
+            {/* Action Buttons (Filtered out during image download) */}
+            <div className="container receipt-actions mx-auto mt-4 max-md:mb-22 px-4 grid grid-cols-3 gap-3">
+                <button
+                    onClick={copyReceiptAsText}
+                    className="download-btn flex flex-col items-center justify-center gap-2 p-3 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-xs font-semibold"
+                >
+                    <Copy className="w-5 h-5" />
+                    Text
+                </button>
+                <button
+                    onClick={downloadReceiptAsCSV}
+                    className="download-btn flex flex-col items-center justify-center gap-2 p-3 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-xs font-semibold"
+                >
+                    <FileDown className="w-5 h-5" />
+                    CSV
+                </button>
+                <button
+                    onClick={downloadReceiptAsImage}
+                    className="download-btn flex flex-col items-center justify-center gap-2 p-3 rounded-lg bg-[#ee4d2d] text-white hover:bg-[#d63916] transition-colors text-xs font-semibold"
+                >
+                    <ImageDown className="w-5 h-5" />
+                    Image
+                </button>
             </div>
         </div>
     );

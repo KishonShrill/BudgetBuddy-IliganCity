@@ -92,7 +92,7 @@ const Footer = () => {
 
     const socialLinks = [
         { icon: Facebook, href: 'https://www.facebook.com/budgetbuddy.iligan', label: 'Facebook', color: "#0866FF" },
-        { icon: Github, href: 'https://github.com/KishonShrill', label: 'GitHub' },
+        { icon: Github, href: 'https://github.com/KishonShrill/BudgetBuddy-IliganCity', label: 'GitHub' },
         { icon: Linkedin, href: 'https://ph.linkedin.com/in/chriscent-louis-june-pingol', label: 'LinkedIn' }
     ];
 

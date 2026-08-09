@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ReceiptText, Settings, UtensilsCrossed, ShoppingBasket } from "lucide-react";
+import { ReceiptText, Settings, UtensilsCrossed, ShoppingBasket, Home } from "lucide-react";
 import { cn } from "@/helpers/utils";
 
 // Optional: Add a TypeScript interface for strictness
@@ -14,8 +14,9 @@ interface NavigationItem {
 }
 
 const navigation: NavigationItem[] = [
+    { name: 'Hub', href: '/budget-hub', icon: Home },
     { name: 'Groceries', href: '/locations', icon: ShoppingBasket },
-    { name: 'Cuisines', href: '#', icon: UtensilsCrossed, disabled: true },
+    //{ name: 'Cuisines', href: '#', icon: UtensilsCrossed, disabled: true },
     { name: 'Receipt', href: '/receipt', icon: ReceiptText },
     { name: 'Settings', href: '/settings', icon: Settings },
 ];
@@ -25,7 +26,7 @@ const BottomNavigation = () => {
     const pathname = usePathname();
 
     // Hide the bottom nav on specific routes
-    if (new Set(['/', '/authenticate', '/profile', '/budget-hub', '/report', '/locations']).has(pathname)) {
+    if (new Set(['/', '/authenticate', '/profile', '/budget-hub', '/report', '/locations', '/docs', '/dev-mode']).has(pathname)) {
         return null;
     }
 

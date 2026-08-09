@@ -28,7 +28,7 @@ export default function RootLayout({
                 <Providers>
                     <ToastProvider>
                         <Header />
-                        <main className="h-[calc(100dvh-62px)] overflow-y-auto dark:bg-gray-800">{children}</main>
+                        <main className="min-h-[calc(100dvh-62px)] overflow-y-auto dark:bg-gray-800">{children}</main>
                         <MainBottomNav />
                     </ToastProvider>
                 </Providers>

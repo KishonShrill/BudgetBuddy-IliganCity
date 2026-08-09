@@ -137,7 +137,7 @@ const Cart = forwardRef<HTMLDivElement, CartProps>(({
                     "p-3.75",
 
                     // === Mobile Styles (Default Base Classes) ===
-                    "fixed top-[61px] bottom-0 w-full",
+                    "fixed top-15 bottom-0 w-full",
                     "pb-28 rounded-none shadow-2xl z-40 border-l dark:border-gray-800",
                     // Mobile Slide Logic (replaces the inline style block)
                     receipt ? "left-0" : "left-full",

@@ -63,7 +63,7 @@ export default function BudgetHub() {
                         <p className="text-sm sm:text-base font-medium opacity-90">Welcome back,</p>
                         <h1 className="text-xl sm:text-4xl font-black tracking-tight">{userData.username}!</h1>
                     </div>
-                    <Link href='/profile' className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center overflow-hidden rounded-full border-4 border-white/20 bg-white dark:bg-gray-800 shadow-inner hover:scale-105 transition-transform">
+                    <Link href='/profile' className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center overflow-hidden rounded-full border-4 border-white/20 bg-white shadow-inner hover:scale-105 transition-transform">
                         {userData.profile_picture ? (
                             <Image src={userData.profile_picture} alt="Profile" fill className="object-cover" />
                         ) : (
@@ -73,7 +73,7 @@ export default function BudgetHub() {
                 </div >
 
                 {/* Quick Actions (Three Buttons) */}
-                < div className="mt-6 sm:mt-8 grid grid-cols-3 gap-3 sm:gap-6" >
+                < div className="mt-6 sm:mt-8 grid grid-cols-2 gap-3 sm:gap-6" >
                     < button
                         onClick={() => router.push('/locations')
                         }
@@ -85,6 +85,7 @@ export default function BudgetHub() {
                         <span className="text-[10px] sm:text-sm font-bold text-gray-800 dark:text-gray-200">Groceries</span>
                     </button >
 
+                    {/*
                     <button
                         disabled
                         className="cursor-not-allowed opacity-80 dark:opacity-60 group flex flex-col items-center justify-center rounded-2xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-6 shadow-sm"
@@ -94,6 +95,7 @@ export default function BudgetHub() {
                         </div>
                         <span className="text-[10px] sm:text-sm font-bold text-gray-800 dark:text-gray-200">Cuisines</span>
                     </button>
+                    */}
 
                     <button
                         onClick={() => router.push('/receipt')}
@@ -150,7 +152,7 @@ export default function BudgetHub() {
                                 {/* State 2: Error (Server down or no internet) */}
                                 {
                                     isError && !isLoading && (
-                                        < div className="flex w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/10 py-12 text-center text-red-500 transition-colors" >
+                                        <div className="px-4 flex w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/10 py-12 text-center text-red-500 transition-colors" >
                                             <ServerCrash size={48} className="mb-4 text-red-400 dark:text-red-500" />
                                             <h3 className="mb-1 text-lg font-bold">Failed to load listings</h3>
                                             <p className="text-sm text-red-400 dark:text-red-300">Please check your network connection or try again later.</p>
@@ -161,7 +163,7 @@ export default function BudgetHub() {
                                 {/* State 3: Success but Empty */}
                                 {
                                     !isLoading && !isError && (!recentListings || recentListings.length === 0) && (
-                                        <div className="flex w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 py-12 text-center text-gray-500 dark:text-gray-400 transition-colors">
+                                        <div className="px-4 flex w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 py-12 text-center text-gray-500 dark:text-gray-400 transition-colors">
                                             <Package size={48} className="mb-4 text-gray-300 dark:text-gray-600" />
                                             <h3 className="mb-1 text-lg font-bold text-gray-900 dark:text-white">No products found</h3>
                                             <p className="text-sm">We couldn&apos;t find any recent additions right now.</p>

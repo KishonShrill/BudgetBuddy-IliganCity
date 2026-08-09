@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Package, ArrowLeft } from "lucide-react";
+import { Package, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import Cart from "@/components/parts/Cart";
@@ -35,6 +35,10 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
     const [selectedCatalog, setSelectedCatalog] = useState('All');
     const [windowWidth, setWindowWidth] = useState(0);
 
+    // --- Pagination State ---
+    const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+
     const cartButtonRef = useRef<HTMLButtonElement>(null);
     const cartRef = useRef<any>(null);
     const searchbarRef = useRef<HTMLInputElement>(null);
@@ -51,9 +55,23 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    // Save cart to local storage
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(cartItems));
     }, [cartItems]);
+
+    // Load itemsPerPage from session storage to persist across reloads
+    useEffect(() => {
+        const savedLimit = sessionStorage.getItem('budgetbuddy_itemsPerPage');
+        if (savedLimit) {
+            setItemsPerPage(Number(savedLimit));
+        }
+    }, []);
+
+    // Reset pagination to page 1 whenever filters change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [search, selectedCatalog]);
 
     const catalogs = useMemo(() => {
         if (!data?.products) return [];
@@ -119,9 +137,25 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
         }) || [];
     }, [data, search, selectedCatalog]);
 
-    const totalQty = Object.values(cartItems).reduce((sum, item: any) => sum + item.quantity, 0);
+    // --- Pagination Computations ---
+    const totalPages = Math.max(1, Math.ceil(filteredProducts.length / itemsPerPage));
+    const paginatedProducts = useMemo(() => {
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        // Also ensure alphabetical sorting is maintained
+        return [...filteredProducts]
+            .sort((a: any, b: any) => a.product.product_name.localeCompare(b.product.product_name))
+            .slice(start, end);
+    }, [filteredProducts, currentPage, itemsPerPage]);
 
-    // REMOVED THE EARLY RETURN IF BLOCKS HERE
+    const handleLimitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newLimit = Number(e.target.value);
+        setItemsPerPage(newLimit);
+        setCurrentPage(1); // Reset to first page
+        sessionStorage.setItem('budgetbuddy_itemsPerPage', String(newLimit));
+    };
+
+    const totalQty = Object.values(cartItems).reduce((sum, item: any) => sum + item.quantity, 0);
 
     return (
         <div className="h-[calc(100dvh-134px)] md:h-[calc(100dvh-62px)] overflow-y-auto overflow-x-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -166,12 +200,11 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
             </nav>
 
             {/* ✨ MAIN FLEX LAYOUT ✨ */}
-            <div className="flex flex-col md:flex-row gap-6 px-5 pb-24 relative max-w-400 mx-auto items-start z-20">
+            <div className="flex flex-col md:flex-row gap-6 px-5 pb-8 relative max-w-400 mx-auto items-start z-20">
 
                 {/* LEFT SIDE: Product Grid */}
                 <section className="flex-1 min-w-0 transition-colors">
 
-                    {/* CONDITIONALLY RENDER LOADING, ERROR, OR PRODUCTS HERE */}
                     {isLoading || isFetching ? (
                         <div className="flex min-h-[40vh] items-center justify-center">
                             <h2 className="text-2xl font-bold dark:text-white">Loading<span className="animated-dots"></span></h2>
@@ -182,16 +215,40 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
                         </div>
                     ) : (
                         <>
+                            {/* Pagination Settings & Summary Header */}
+                            {filteredProducts.length > 0 && (
+                                <div className="flex justify-between items-center mb-4 px-1">
+                                    <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
+                                        Showing {(currentPage - 1) * itemsPerPage + 1} - {Math.min(currentPage * itemsPerPage, filteredProducts.length)} of {filteredProducts.length}
+                                    </p>
+                                    <div className="flex items-center gap-2">
+                                        <label htmlFor="perPage" className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
+                                            Per page:
+                                        </label>
+                                        <select
+                                            id="perPage"
+                                            value={itemsPerPage}
+                                            onChange={handleLimitChange}
+                                            className="text-xs sm:text-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 rounded-md px-2 py-1 outline-none focus:border-[#ee4d2d] focus:ring-1 focus:ring-[#ee4d2d] transition-colors"
+                                        >
+                                            <option value={10}>10</option>
+                                            <option value={20}>20</option>
+                                            <option value={50}>50</option>
+                                            <option value={100}>100</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Products Grid */}
                             <main className={`grid ${!settings.hidePhotos ? 'max-sm:grid-cols-1' : 'grid-cols-2'} grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6`}>
-                                {filteredProducts
-                                    .sort((a: any, b: any) => a.product.product_name.localeCompare(b.product.product_name))
-                                    .map((item: any) => (
-                                        <ProductCard
-                                            key={item._id}
-                                            item={item}
-                                            onAdd={(event) => handleClick(event.currentTarget)}
-                                        />
-                                    ))}
+                                {paginatedProducts.map((item: any) => (
+                                    <ProductCard
+                                        key={item._id}
+                                        item={item}
+                                        onAdd={(event) => handleClick(event.currentTarget)}
+                                    />
+                                ))}
                             </main>
 
                             {/* Empty State when no products match the search filter */}
@@ -210,10 +267,39 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
                                     </Button>
                                 </div>
                             )}
+
+                            {/* Bottom Pagination Controls */}
+                            {totalPages > 1 && (
+                                <div className="mt-8 flex justify-center items-center gap-4">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                        disabled={currentPage === 1}
+                                        className="dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 disabled:opacity-50"
+                                    >
+                                        <ChevronLeft className="w-4 h-4 mr-1" /> Prev
+                                    </Button>
+
+                                    <span className="text-sm text-gray-600 dark:text-gray-400 font-medium">
+                                        Page {currentPage} of {totalPages}
+                                    </span>
+
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                        disabled={currentPage === totalPages}
+                                        className="dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 disabled:opacity-50"
+                                    >
+                                        Next <ChevronRight className="w-4 h-4 ml-1" />
+                                    </Button>
+                                </div>
+                            )}
                         </>
                     )}
 
-                    <div className="mt-12 flex flex-wrap justify-center gap-x-1 text-gray-500 dark:text-gray-900">
+                    <div className="mt-12 flex flex-wrap justify-center gap-x-1 text-gray-500 dark:text-gray-400">
                         <p className="text-center">Don&apos;t see the product you&apos;re looking for?</p>
                         <Link href="/contribution/hub" className="text-orange-500 hover:font-bold">Contribute with us</Link>
                     </div>

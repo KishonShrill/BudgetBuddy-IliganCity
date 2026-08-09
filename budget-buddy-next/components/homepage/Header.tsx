@@ -78,7 +78,7 @@ const Header = () => {
             isDropdown: true,
             subLinks: [
                 { to: "/locations", label: "Groceries", icon: <Package size={18} /> },
-                { to: "#", label: "Cuisines", icon: <Utensils size={18} />, disabled: true },
+                //{ to: "#", label: "Cuisines", icon: <Utensils size={18} />, disabled: true },
                 { to: "/receipt", label: "Receipt", icon: <ShoppingCart size={18} /> },
             ]
         },
@@ -126,8 +126,10 @@ const Header = () => {
     const inactiveStyles = "text-gray-600 dark:text-gray-300";
     const keepWidthStyles = "inline-flex flex-col after:content-[attr(data-text)] after:font-bold after:h-0 after:invisible after:overflow-hidden after:select-none";
 
+    if (pathname.startsWith('/dev-mode')) return null;
+
     return (
-        <header ref={headerRef} className="header relative flex items-center justify-between px-4 md:px-6 py-3 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 z-30">
+        <header ref={headerRef} className="header sticky top-0 flex items-center justify-between px-4 md:px-6 py-3 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 z-30">
 
             {/* LEFT: Logo & Desktop Title */}
             <Link href="/" className="flex items-center gap-2 shrink-0" aria-label="Go to homepage">
@@ -186,7 +188,7 @@ const Header = () => {
                                         title={link.disabled ? `Coming soon...` : undefined}
                                         className={`flex items-center gap-3 px-3 py-2.5 md:p-0 rounded-xl transition-colors hover:bg-gray-200 md:hover:bg-transparent dark:md:hover:bg-transparent hover:text-orange-500 dark:hover:bg-gray-700 dark:hover:text-orange-500 ${link.disabled && 'opacity-50 pointer-events-none'} ${checkIsActive(link.to) ? activeStyles : inactiveStyles}`}
                                         href={link.to}
-                                        onClick={() => { if (!link.isDropdown) setIsOpen(false) }}
+                                        onClick={() => { setIsOpen(false) }}
                                     >
                                         <span className="md:hidden">{link.icon}</span>
                                         <span data-text={link.label} className={`flex items-center ${keepWidthStyles}`}>

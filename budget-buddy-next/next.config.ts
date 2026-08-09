@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
+const LOCAL_IP = process.env.DEVELOPMENT_IP;
+
 const nextConfig: NextConfig = {
+    allowedDevOrigins: LOCAL_IP ? [LOCAL_IP] : [],
     output: 'export',
     images: {
         unoptimized: true,

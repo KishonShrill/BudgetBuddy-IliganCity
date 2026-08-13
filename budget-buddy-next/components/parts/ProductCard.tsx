@@ -16,6 +16,7 @@ export interface ProductItem {
     updated_price: number;
     date_updated: string;
     location: {
+        id?: string;
         name: string;
     };
     category?: {

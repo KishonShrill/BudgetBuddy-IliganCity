@@ -50,8 +50,8 @@ export default function Sidebar() {
                 {/* Logo and Toggle */}
                 <div className="flex bg-blue-50 h-16 items-center justify-between border-b border-gray-200 px-4">
                     <div className={cn(
-                        "flex items-center space-x-2 transition-opacity duration-300",
-                        isCollapsed ? "hidden" : "flex"
+                        "flex items-center space-x-2 transition-opacity duration-300 z-0",
+                        isCollapsed ? "w-0 opacity-0" : "w-fit opacity-100"
                     )}>
                         <span className="text-xl font-bold text-gray-900 whitespace-nowrap">Admin Console</span>
                     </div>
@@ -59,14 +59,14 @@ export default function Sidebar() {
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsCollapsed(!isCollapsed)}
-                        className="h-8 w-8 p-0 hover:bg-gray-100"
+                        className="h-8 w-8 p-0 hover:bg-gray-100 cursor-pointer z-10"
                     >
                         <Menu className="h-4 w-4" />
                     </Button>
                 </div>
 
                 {/* Navigation */}
-                <div className='flex-1 flex flex-col justify-between'>
+                <div className='flex-1 flex flex-col justify-between overflow-x-hidden'>
                     <nav className="flex-1 space-y-1 px-2 py-6">
                         {navigation.map((item) => (
                             <SideNavButton key={item.name} item={item} isCollapsed={isCollapsed} />
@@ -98,7 +98,7 @@ export default function Sidebar() {
                             >
                                 <item.icon
                                     className={cn(
-                                        'h-5 w-5 mb-1 flex-shrink-0',
+                                        'h-5 w-5 mb-1 shrink-0',
                                         isActive ? 'text-blue-500' : 'text-gray-400'
                                     )}
                                     aria-hidden="true"
@@ -135,7 +135,6 @@ function SideNavButton({ item, isCollapsed }: SideNavButtonProps) {
                     isActive
                         ? "bg-blue-50 text-blue-700"
                         : "text-gray-700 hover:bg-red-500 hover:text-white",
-                    isCollapsed ? "justify-center" : ""
                 )}
                 type="button"
                 onClick={logout}
@@ -143,7 +142,7 @@ function SideNavButton({ item, isCollapsed }: SideNavButtonProps) {
             >
                 <item.icon
                     className={cn(
-                        "h-5 w-5 flex-shrink-0 transition-colors",
+                        "h-5 w-5 shrink-0 transition-colors",
                         isActive
                             ? "text-blue-500"
                             : "text-gray-400 group-hover:text-white",
@@ -153,8 +152,8 @@ function SideNavButton({ item, isCollapsed }: SideNavButtonProps) {
                 />
                 <span
                     className={cn(
-                        "transition-opacity duration-300 whitespace-nowrap",
-                        isCollapsed ? "opacity-0 w-0" : "opacity-100"
+                        "transition-all duration-300 whitespace-nowrap",
+                        isCollapsed ? "opacity-0 w-0 ml-0" : "opacity-100 ml-3"
                     )}
                 >
                     {item.name}
@@ -173,24 +172,22 @@ function SideNavButton({ item, isCollapsed }: SideNavButtonProps) {
                 isActive
                     ? "bg-blue-50 text-blue-700"
                     : "text-gray-700 hover:bg-gray-200 hover:text-gray-900",
-                isCollapsed ? "justify-center" : ""
             )}
             title={isCollapsed ? item.name : undefined}
         >
             <item.icon
                 className={cn(
-                    "h-5 w-5 flex-shrink-0 transition-colors",
+                    "h-5 w-5 shrink-0 transition-colors",
                     isActive
                         ? "text-blue-500"
                         : "text-gray-400 group-hover:text-gray-500",
-                    isCollapsed ? "" : "mr-3"
                 )}
                 aria-hidden="true"
             />
             <span
                 className={cn(
-                    "transition-opacity duration-300 whitespace-nowrap",
-                    isCollapsed ? "opacity-0 w-0 hidden" : "opacity-100"
+                    "transition-all duration-300 whitespace-nowrap",
+                    isCollapsed ? "opacity-0 w-0 ml-0" : "opacity-100 ml-3"
                 )}
             >
                 {item.name}

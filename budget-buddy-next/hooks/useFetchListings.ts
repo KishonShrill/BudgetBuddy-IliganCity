@@ -24,10 +24,10 @@ const useFetchListings = (token: string | undefined, totalItems = 0) => {
             const response = await axios.get<ProductItem[]>(DATABASE_URL, config);
             return response.data;
         },
-        gcTime: 1000 * 60 * 5,   // Formerly cacheTime
+        gcTime: 1000 * 60 * 5,
         staleTime: 1000 * 60 * 2,
         refetchOnWindowFocus: false,
-        enabled: !!token,        // Don't fetch if there's no token
+        enabled: !!token,
     });
 };
 

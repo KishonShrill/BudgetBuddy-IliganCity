@@ -25,8 +25,8 @@ const useFetchProducts = (token?: string) => {
         queryFn: fetchProducts,
 
         // cacheTime was renamed to gcTime in v5
-        gcTime: 1000 * 60 * 5,    // 5 minutes
-        staleTime: 1000 * 60 * 1, // 1 minute
+        gcTime: 1000 * 60 * 5,
+        staleTime: 1000 * 60 * 5,
 
         refetchOnWindowFocus: false,
 

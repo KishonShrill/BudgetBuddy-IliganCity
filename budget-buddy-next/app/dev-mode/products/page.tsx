@@ -146,7 +146,6 @@ export default function Products() {
                     {isLoading
                         ? <h1 className="text-xl font-bold text-gray-500">Loading products<span className="animated-dots"></span></h1>
                         : <DataTable
-                            fetched="products"
                             data={normalizedData}
                             columns={columns}
                             filterableColumns={['category_name', 'category_list', 'status']}

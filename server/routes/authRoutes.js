@@ -147,35 +147,44 @@ router.post("/login", async (req, res) => {
     // #swagger.description = 'Endpoint to login as a user.'
     const { token, iss, email, password } = req.body;
 
+    // 1. Fetch Google payload if token exists (added a .catch to prevent crash if Google is down)
     const googleResponse = token ? await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
         headers: { Authorization: `Bearer ${token}` }
-    }) : null;
+    }).catch(() => null) : null;
 
     const payload = googleResponse ? googleResponse.data : null;
 
-    if (typeof email !== "string" && !token) {
+    // 2. Determine target email cleanly
+    const targetEmail = token ? payload?.email : email;
+
+    if (!targetEmail || typeof targetEmail !== "string") {
         return res.status(400).send({ message: "Invalid email" });
     }
 
+    // 3. Query the DB (ensuring .exec() is called regardless of login type)
     await ResultAsync
-        .fromPromise(token ? User.findOne({ email: { $eq: payload.email } }) : User.findOne({ email: { $eq: email } }).exec(),
+        .fromPromise(
+            User.findOne({ email: targetEmail }).exec(),
             () => ({ status: 500, message: "Database connection failed" })
         )
         .andThen((user) =>
             user ? okAsync(user) : errAsync({ status: 404, message: "User not found" })
         )
         .andThen((user) => {
+            // Google auth bypasses the password check
             if (iss === "https://accounts.google.com") {
                 return okAsync(user);
             }
 
+            // Manual auth checks password
             return ResultAsync.fromPromise(
                 bcrypt.compare(password, user.password),
                 () => ({ status: 500, message: "Encryption validation failed" })
             ).andThen((isMatch) =>
-                isMatch ? ok(user) : err({ status: 400, message: "Passwords do not match" })
+                isMatch ? okAsync(user) : errAsync({ status: 400, message: "Passwords do not match" })
             );
         }).map((user) => {
+            // 4. Build Token with safe fallbacks
             const initToken = {
                 user_id: user._id,
                 user_email: user.email,
@@ -184,16 +193,19 @@ router.post("/login", async (req, res) => {
                 account_created: user.account_created
             };
 
-            console.log(user.profile_picture)
+            // 5. Handle profile picture logic
             if (iss === "https://accounts.google.com") {
-                initToken.profile_picture = user.profile_picture
+                // If DB has no picture, use the fresh one from Google's payload
+                initToken.profile_picture = user.profile_picture || payload?.picture;
+            } else if (user.profile_picture) {
+                initToken.profile_picture = user.profile_picture;
             }
 
-            const token = jwt.sign(initToken, process.env.JWT_SECRET, { expiresIn: "24h" });
+            const jwtToken = jwt.sign(initToken, process.env.JWT_SECRET, { expiresIn: "24h" });
 
             return {
                 message: "Login Successful",
-                token
+                token: jwtToken
             };
         })
         .match(

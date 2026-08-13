@@ -1,5 +1,8 @@
 {
-  "rewrites":  [
-    {"source": "/(.*)", "destination": "/"}
-  ]
+    "rewrites": [
+        {
+            "source": "/budget-buddy-next/(.*)",
+            "destination": "/"
+        }
+    ]
 }

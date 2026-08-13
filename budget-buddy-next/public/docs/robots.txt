@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://productprice-iligan.vercel.app/docs/sitemap.xml

@@ -1,0 +1,41 @@
+// Waiting Cycle
+.errorDisplay {
+  width: 100%;
+  height: calc(100dvh - 66px);
+  display: grid;
+  place-content: center;
+
+  & h2 {
+    display: flex;
+  }
+}
+
+.animated-dots {
+  display: block;
+  font-weight: bold;
+}
+
+.animated-dots::after {
+  content: '.';
+  width: 1.2em; /* enough space for 3 dots */
+  display: block;
+  font-size: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: blinkDots 1.5s steps(3, end) infinite;
+}
+
+@keyframes blinkDots {
+  0%, 20% {
+    content: '';
+  }
+  40% {
+    content: '.';
+  }
+  60% {
+    content: '..';
+  }
+  80%, 100% {
+    content: '...';
+  }
+}

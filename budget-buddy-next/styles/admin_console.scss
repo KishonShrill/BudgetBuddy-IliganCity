@@ -1,0 +1,218 @@
+@use 'utils/mixins';
+@use 'utils/loading';
+@use 'utils/pagination';
+
+.desktop {
+  display: inherit;
+  @include mixins.respond-max(sm) {
+    display: none !important;
+  }
+}
+
+.crud-container {
+    max-width: 1400px;
+    /* Wider container for the table */
+    margin: 20px auto;
+    /* Center the container */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+
+    & h1 {
+        margin-block: 0 20px;
+        // margin-top: 0;
+        // margin-bottom: 20px;
+        text-align: center;
+        color: #ee4d2d;
+        /* Shopee orange */
+        font-size: 2em;
+    }
+}
+
+.controls {
+    margin-bottom: 20px;
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    /* Allow items to wrap on small screens */
+    align-items: flex-end;
+    /* Align items to the bottom */
+    gap: 15px;
+    /* Space between controls */
+    border-radius: 6px;
+    background-color: #f0f0f0;
+}
+
+.control-group {
+    min-width: 150px;
+    /* Minimum width before wrapping */
+    flex: 1;
+    /* Allow groups to grow */
+}
+
+.control-group label {
+    margin-bottom: 5px;
+    display: block;
+    color: #555;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.controls input[type="text"],
+.controls select {
+    width: 100%;
+    /* Take full width of the control-group */
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.controls button {
+    padding: 10px 15px;
+    color: white;
+    font-size: 1em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #ee4d2d;
+    transition: background-color 0.3s ease;
+}
+
+.controls button:hover {
+    background-color: #d7391f;
+}
+
+.add-product-button {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    border-radius: 4px;
+    background-color: #5cb85c;
+    /* Green for Add */
+    transition: background-color 0.3s ease;
+}
+
+.add-product-button:hover {
+    background-color: #4cae4c;
+}
+
+
+//table {
+//    width: 100%;
+//    /* Remove space between borders */
+////    margin-top: 20px;
+//    border-collapse: collapse;
+//}
+//
+//th,
+//td {
+//    padding: 12px;
+//    text-align: left;
+//    border-bottom: 1px solid #ddd;
+//    /* Horizontal border */
+//}
+//
+//th {
+//    /* Light grey background for headers */
+//    color: #555;
+//    font-weight: bold;
+//    background-color: #f2f2f2;
+//}
+//
+//tr:hover {
+//    background-color: #f9f9f9;
+//    /* Highlight row on hover */
+//}
+
+
+.actions {
+    & button {
+        margin-right: 5px;
+        padding: 5px 10px;
+        font-size: 0.9em;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    & .edit-btn {
+        color: white;
+        /* Orange for Edit */
+        background-color: #f0ad4e;
+
+        &:hover {
+            background-color: #ec971f;
+        }
+    }
+
+    & .delete-btn {
+        background-color: #d9534f;
+        /* Red for Delete */
+        color: white;
+
+        &:hover {
+            background-color: #c9302c;
+        }
+    }
+}
+
+.message-area {
+    min-height: 1.2em;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+
+    &.loading {
+        color: #333;
+        background-color: #e9e9e9;
+    }
+
+    &.error {
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        background-color: #f8d7da;
+    }
+
+    &:empty {
+        display: none;
+        /* Hide if empty */
+    }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .control-group {
+        min-width: 100%;
+        /* Stack control groups */
+    }
+
+    .controls button {
+        width: 100%;
+        /* Make button full width */
+    }
+}
+
+@media screen and (max-width: 475px) {
+    .actions button {
+        width: 100%;
+        margin-bottom: 2px;
+        padding: 4px 8px;
+        font-size: 0.7em;
+    }
+}

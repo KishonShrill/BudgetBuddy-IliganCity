@@ -94,7 +94,7 @@ const Cart = React.memo(forwardRef(({ storage, onRemove, onRemoveLocation, onRem
 
     return (
         <>
-            <div ref={ref} className="cart-summary h-[calc(100vh-60px)] min-[700px]:h-[60vh] dark:bg-gray-500 max-[700px]:z-40 z-20" style={{ left: reciept }}>
+            <div ref={ref} className="cart-summary h-[calc(100vh-60px)] min-[700px]:h-[60vh] dark:bg-gray-500 max-[700px]:z-40 z-20" style={{ left: reciept ? "100%" : "0%" }}>
                 <div className="flex h-full flex-col">
                     {/* Cart Header */}
                     <button

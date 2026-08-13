@@ -1,9 +1,0 @@
-﻿# Budget Buddy Docs 🛒
-
-> Welcome to the official documentation for Budget Buddy. Whether you are a student trying to stretch your allowance, a savvy shopper hunting for the best deals, or a community contributor helping us keep prices updated, you are in the right place.
-
-- [Budget Buddy Docs 🛒](https://productprice-iligan.vercel.app/docs/index.md): Budget Buddy Docs 🛒
-- [Contributing & Ranking Up](https://productprice-iligan.vercel.app/docs/contributing.md): Budget Buddy thrives on accurate data. Every time you submit a new price or verify an existing one, you are actively helping other shoppers save money.
-- [Frequently Asked Questions](https://productprice-iligan.vercel.app/docs/faq.md): You can browse stores and view prices without an account. However, if you want to use the Cart feature, submit new prices, or vote on the Community Hub, you must log in or create an account.
-- [Support & Contact](https://productprice-iligan.vercel.app/docs/support.md): If you are experiencing issues with your account, spotted a bug, or need help navigating the platform, we are here to help.
-- [What is Budget Buddy?](https://productprice-iligan.vercel.app/docs/about.md): Budget Buddy is a localized web application and community tool designed to help people track, compare, and discover product prices across various stores in Iligan City.

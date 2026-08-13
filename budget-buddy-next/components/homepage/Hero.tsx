@@ -220,9 +220,9 @@ const Hero = () => {
 
             <div
                 onClick={() => window.scrollBy({ top: window.innerHeight * 0.95, behavior: 'smooth' })}
-                className="absolute min-w-30 max-lg:hidden bottom-6 sm:bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce text-gray-400 dark:text-gray-500 hover:text-[#ee4d2d] dark:hover:text-orange-400 transition-colors cursor-pointer z-20 group"
+                className="absolute min-w-30 max-lg:hidden bottom-6 sm:bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce text-[#ee4d2d] dark:text-orange-400 transition-colors cursor-pointer z-20 group"
             >
-                <span className="text-[10px] font-bold uppercase tracking-widest mb-1 select-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="text-[10px] font-bold uppercase tracking-widest mb-1 select-none">
                     Scroll
                 </span>
                 <ChevronDown className="w-6 h-6" />

@@ -1,9 +1,3 @@
----
-label: Support
-order: -4
-icon: comment-discussion
----
-
 # Support & Contact
 
 If you are experiencing issues with your account, spotted a bug, or need help navigating the platform, we are here to help.
@@ -15,6 +9,5 @@ When reporting a technical bug or an issue with a specific listing, please provi
 * A brief description of the problem.
 * The store or product you were looking at.
 * Screenshots (if applicable).
-* *For Moderators/Admins:* If you are experiencing issues with the Console or Bulk Upload tools, please specify the payload or file type that failed.
 
 If you are a developer looking to contribute to the codebase, check out our [repository](https://github.com/KishonShrill/BudgetBuddy-IliganCity) to report issues or submit pull requests.

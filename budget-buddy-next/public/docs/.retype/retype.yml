@@ -1,7 +1,7 @@
 input: .
-output: ../public/docs
+output: ..
 
-url: https://productprice-iligan.vercel.app/docs # Use your website address here
+url: https://productprice-iligan.vercel.app/docs
 
 start:
   # Uncomment the next line to try Retype Pro features

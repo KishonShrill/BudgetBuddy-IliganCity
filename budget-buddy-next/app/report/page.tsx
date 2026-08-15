@@ -48,10 +48,20 @@ const ReportPage = () => {
             const parsedUrl = new URL(formData.url);
 
             if (reportTab === 'location') {
+                const hostname = parsedUrl.hostname.toLowerCase();
+                const pathname = parsedUrl.pathname;
+                const allowedGoogleMapsHosts = new Set([
+                    'google.com',
+                    'www.google.com',
+                    'maps.google.com',
+                    'maps.app.goo.gl',
+                    'goo.gl'
+                ]);
+
                 const isGoogleMaps =
-                    (parsedUrl.hostname.includes('google.com') && parsedUrl.pathname.includes('/maps')) ||
-                    parsedUrl.hostname.includes('maps.app.goo.gl') ||
-                    parsedUrl.hostname.includes('goo.gl/maps');
+                    (allowedGoogleMapsHosts.has(hostname) && pathname.includes('/maps')) ||
+                    hostname === 'maps.app.goo.gl' ||
+                    (hostname === 'goo.gl' && pathname.startsWith('/maps'));
 
                 if (!isGoogleMaps) {
                     setUrlError("Please provide a valid Google Maps URL.");
@@ -65,9 +75,11 @@ const ReportPage = () => {
                 }
             }
             else if (reportTab === 'product') {
+                const hostname = parsedUrl.hostname.toLowerCase();
+                const allowedGoogleSearchHosts = new Set(['google.com', 'www.google.com']);
                 const isGoogleSearch =
-                    parsedUrl.hostname.includes('google.com') &&
-                    parsedUrl.pathname.includes('/search');
+                    allowedGoogleSearchHosts.has(hostname) &&
+                    parsedUrl.pathname === '/search';
 
                 if (!isGoogleSearch) {
                     setUrlError("Please provide a valid Google Search URL (e.g., https://www.google.com/search?q=...)");

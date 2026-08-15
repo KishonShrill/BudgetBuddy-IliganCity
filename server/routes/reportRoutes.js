@@ -6,11 +6,15 @@ import { user_verify } from '../helpers/auth.js';
 
 const router = express.Router();
 
+// Determine if we should skip CAPTCHA globally based on the env variable
+const skipCaptcha = !process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
+
 router.post('/missing-location', user_verify, async (req, res) => {
     const { locationName, mapsUrl, notes, captchaToken } = req.body;
 
     const validateInput = () => {
-        if (!captchaToken) {
+        // Skip token check if reCAPTCHA is disabled in env
+        if (!skipCaptcha && !captchaToken) {
             return err({ status: 400, message: "Please complete the reCAPTCHA challenge." });
         }
         if (!locationName) {
@@ -23,6 +27,9 @@ router.post('/missing-location', user_verify, async (req, res) => {
     };
 
     const verifyCaptcha = (token) => {
+        // Immediately bypass verification if disabled
+        if (skipCaptcha) return ok(true);
+
         const secret = process.env.RECAPTCHA_SECRETKEY;
         const verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
 
@@ -104,7 +111,8 @@ router.post('/missing-product', user_verify, async (req, res) => {
     const { productName, referenceUrl, notes, captchaToken } = req.body;
 
     const validateInput = () => {
-        if (!captchaToken) {
+        // Skip token check if reCAPTCHA is disabled in env
+        if (!skipCaptcha && !captchaToken) {
             return err({ status: 400, message: "Please complete the reCAPTCHA challenge." });
         }
         if (!productName) {
@@ -117,6 +125,9 @@ router.post('/missing-product', user_verify, async (req, res) => {
     };
 
     const verifyCaptcha = (token) => {
+        // Immediately bypass verification if disabled
+        if (skipCaptcha) return ok(true);
+
         const secret = process.env.RECAPTCHA_SECRETKEY;
         const verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
 

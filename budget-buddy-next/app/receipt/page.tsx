@@ -137,7 +137,7 @@ export default function ReceiptClient() {
     };
 
     return (
-        <div className="min-h-[calc(100dvh-62px)] bg-gray-50 dark:bg-gray-900 sm:py-8 transition-colors duration-300">
+        <div className="min-h-[calc(100dvh-65px)] bg-gray-50 dark:bg-gray-900 sm:py-8 transition-colors duration-300">
             <div
                 className="receipt-container sm:max-w-lg mx-auto bg-white dark:bg-gray-800 sm:rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-8"
                 ref={receiptRef}

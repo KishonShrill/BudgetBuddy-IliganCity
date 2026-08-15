@@ -2,9 +2,9 @@ import { config } from 'dotenv';
 import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
+import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swagger-output.json' with { type: 'json' }
-import path from 'path'
 import rateLimit from 'express-rate-limit';
 
 import authRoutes from './routes/authRoutes.js';
@@ -41,9 +41,6 @@ const allowedOrigins = process.env.VITE_DEVELOPMENT
 
 const corsOptions = {
     origin: function(origin, callback) {
-        console.log("Origin Requests: " + origin);
-        console.log("Non-browser: " + !origin);
-
         // Allow requests with no origin (like mobile apps or curl requests)
         if (process.env.VITE_DEVELOPMENT) {
             // ✅ Development: allow localhost, LAN IPs, curl, mobile apps
@@ -74,6 +71,7 @@ const corsOptions = {
 const app = express();
 app.set('trust proxy', 1); // Trust the first proxy since we are hosting in vercel
 app.use(express.json());
+app.use(morgan('dev'));
 app.use(cors(corsOptions));
 
 const limiter = rateLimit({

@@ -158,7 +158,7 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
     const totalQty = Object.values(cartItems).reduce((sum, item: any) => sum + item.quantity, 0);
 
     return (
-        <div className="h-[calc(100dvh-134px)] md:h-[calc(100dvh-62px)] overflow-y-auto overflow-x-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <div className="h-[calc(100dvh-134px)] md:h-[calc(100dvh-65px)] overflow-y-auto overflow-x-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
             {/* Audio Element */}
             <audio ref={audioRef} src="/sounds/click-pop.mp3" preload="auto" />
 

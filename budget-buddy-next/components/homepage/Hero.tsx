@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ShoppingCart, TrendingUp, Shield, ExternalLink, Check, Share2, X, Copy, ChevronDown } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
+import Cookies from 'js-cookie';
 import Facebook from '@/public/images/icons/facebook.svg'
 
 const MockupContent = () => (
@@ -39,11 +40,16 @@ const MockupContent = () => (
 );
 
 const Hero = () => {
+    const [token, setToken] = useState<string | null>(null);
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const [copied, setCopied] = useState(false);
 
     const appUrl = "https://productprice-iligan.vercel.app/";
     const shareMessage = "Check out Budget Buddy! It's a smart shopping tool to track and compare grocery prices in Iligan City. 🛒📉";
+
+    useEffect(() => {
+        setToken(Cookies.get("budgetbuddy_token") as string);
+    }, [token])
 
     const handleCopyLink = () => {
         navigator.clipboard.writeText(appUrl);
@@ -83,7 +89,7 @@ const Hero = () => {
                         </p>
 
                         <div className="flex flex-col max-sm:grid max-sm:grid-cols-2 max-md:px-4 sm:flex-row gap-4 items-center justify-center lg:justify-start">
-                            <Link href="/budget-hub" className="col-span-2 flex items-center max-lg:justify-center lg:w-fit bg-linear-to-r from-[#ee4d2d] to-[#ff6b47] text-white px-8 py-4 max-md:py-3 rounded-full font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all duration-300 hover:shadow-[#ee4d2d]/25 group">
+                            <Link href={token ? `/budget-hub` : `/locations`} className="col-span-2 flex items-center max-lg:justify-center lg:w-fit bg-linear-to-r from-[#ee4d2d] to-[#ff6b47] text-white px-8 py-4 max-md:py-3 rounded-full font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all duration-300 hover:shadow-[#ee4d2d]/25 group">
                                 Start Budgeting
                                 <ShoppingCart className="w-5 h-5 ml-2 inline group-hover:translate-x-1 transition-transform duration-300" />
                             </Link>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Settings, Menu, X, LayoutDashboard, Package, ShoppingCart, Computer, CircleUserRound, Scroll, ChevronDown, Wallet } from "lucide-react";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
@@ -35,6 +35,7 @@ interface NavLink {
 }
 
 const Header = () => {
+    const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const [token, setToken] = useState<string | undefined>(cookies.get("budgetbuddy_token"));
 
@@ -67,7 +68,7 @@ const Header = () => {
     // 4. Force data to be strictly null on excluded routes
     const data = isExcluded || !fetchedData ? null : fetchedData;
 
-    const locationTitle = currentLocation.split('/')[1];
+    //const locationTitle = currentLocation.split('/')[1];
 
     if (token) {
         try {
@@ -85,6 +86,10 @@ const Header = () => {
         setIsOpen(false);
         cookies.remove("budgetbuddy_token", { path: "/" });
         setToken(undefined);
+        router.push("/");
+        setTimeout(() => {
+            router.refresh();
+        }, 100);
     };
 
     const navLinks: NavLink[] = [
@@ -92,16 +97,21 @@ const Header = () => {
         ...(token
             ? [{ to: "/contribution", label: "Contribute", icon: <Scroll size={20} /> }]
             : []),
-        {
-            to: "/budget-hub",
-            label: "Budget Hub",
-            icon: <Wallet size={20} />,
-            isDropdown: true,
-            subLinks: [
+        ...(token
+            ? [{
+                to: "/budget-hub",
+                label: "Budget Hub",
+                icon: <Wallet size={20} />,
+                isDropdown: true,
+                subLinks: [
+                    { to: "/locations", label: "Groceries", icon: <Package size={18} /> },
+                    { to: "/receipt", label: "Receipt", icon: <ShoppingCart size={18} /> },
+                ]
+            }]
+            : [
                 { to: "/locations", label: "Groceries", icon: <Package size={18} /> },
-                { to: "/receipt", label: "Receipt", icon: <ShoppingCart size={18} /> },
-            ]
-        }
+                { to: "/receipt", label: "Receipt", icon: <ShoppingCart size={18} /> }
+            ]),
     ];
 
     const checkIsActive = (path: string) => {
@@ -260,16 +270,6 @@ const Header = () => {
                             </Link>
                         ) : (
                             <>
-                                <Link
-                                    className={`nav-link flex items-center gap-3 px-3 py-2 md:p-0 rounded-xl transition-colors hover:bg-gray-200 md:hover:bg-transparent dark:md:hover:bg-transparent hover:text-orange-500 dark:hover:bg-gray-700 dark:hover:text-orange-500 font-medium ${checkIsActive("/profile") ? activeStyles : inactiveStyles}`}
-                                    href="/profile"
-                                    onClick={() => setIsOpen(false)}
-                                    title="Profile"
-                                >
-                                    <CircleUserRound size={20} />
-                                    <span className="md:hidden font-medium">Profile</span>
-                                </Link>
-
                                 {isAdvancedUser && (
                                     <Link
                                         className={`nav-link flex items-center gap-3 px-3 py-2 md:p-0 rounded-xl transition-colors hover:bg-gray-200 md:hover:bg-transparent dark:md:hover:bg-transparent hover:text-orange-500 dark:hover:bg-gray-700 dark:hover:text-orange-500 font-medium ${checkIsActive("/dev-mode") ? activeStyles : inactiveStyles}`}

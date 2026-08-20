@@ -41,6 +41,7 @@ const Settings = () => {
         }[];
     }
 
+
     const settingCategories: SettingCategory[] = [
         {
             title: "Appearance",

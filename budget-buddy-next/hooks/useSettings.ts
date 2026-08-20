@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { saveSettings, defaultSettings, type AppSettings } from "@/helpers/settings";
+import { saveSettings, defaultSettings, loadSettings, type AppSettings } from "@/helpers/settings";
 import { requestNotificationPermission, showNotification } from "@/helpers/notifications";
 
 export default function useSettings() {
-    const [settings, setSettings] = useState<AppSettings>(defaultSettings as AppSettings);
+    const [settings, setSettings] = useState<AppSettings>(loadSettings() as AppSettings);
 
     const updateSetting = <K extends keyof AppSettings>(key: K, value: AppSettings[K]) => {
         switch (key) {

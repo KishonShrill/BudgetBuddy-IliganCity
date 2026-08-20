@@ -301,7 +301,7 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
 
                     <div className="mt-12 flex flex-wrap justify-center gap-x-1 text-gray-500 dark:text-gray-400">
                         <p className="text-center">Don&apos;t see the product you&apos;re looking for?</p>
-                        <Link href="/contribution/hub" className="text-orange-500 hover:font-bold">Contribute with us</Link>
+                        <Link href="/contribution" className="text-orange-500 hover:font-bold">Contribute with us</Link>
                     </div>
                 </section>
 

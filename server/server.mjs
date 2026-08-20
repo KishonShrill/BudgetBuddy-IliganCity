@@ -36,8 +36,12 @@ const allowedOrigins = process.env.VITE_DEVELOPMENT
         `http://${DEVELOPMENT}:5173`,
         'http://localhost:3000',
         'https://productprice-iligan.vercel.app',
+        'https://budgetbuddy.betteriligancity.org'
     ]
-    : 'https://productprice-iligan.vercel.app';
+    : [
+        'https://productprice-iligan.vercel.app',
+        'https://budgetbuddy.betteriligancity.org'
+    ];
 
 const corsOptions = {
     origin: function(origin, callback) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { saveSettings, loadSettings, type AppSettings } from "@/helpers/settings";
+import { saveSettings, defaultSettings, loadSettings, type AppSettings } from "@/helpers/settings";
 import { requestNotificationPermission, showNotification } from "@/helpers/notifications";
 
 export default function useSettings() {

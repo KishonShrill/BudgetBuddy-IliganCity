@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-    ThumbsUp, ThumbsDown, Plus, Clock, Store, Tag,
+    ThumbsUp, ThumbsDown, Plus, Clock, Store, Tag, Lock,
     PackageOpen, CheckCircle2, Loader2, AlertCircle, HelpCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Cookies from 'js-cookie';
 
 import ContributionGuideModal from './ContributionGuideModal';
 import useFetchPendingContributions from '@/hooks/useFetchPendingContributions';
@@ -20,6 +21,8 @@ export default function CommunityHub() {
     const [activeTab, setActiveTab] = useState('to_review');
     const [voteLoading, setVoteLoading] = useState(false);
     const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
+
+    const token = Cookies.get("budgetbuddy_token");
 
     const { data = { pending: [], votesToday: 0, submissionsToday: 0 }, isLoading, isError, error } = useFetchPendingContributions();
     const { mutate: submitVote } = useVoteContribution();
@@ -37,7 +40,7 @@ export default function CommunityHub() {
     const MAX_VOTES = 5;
     const MAX_SUBMISSION = 1;
 
-    const isSubmissionBlocked = isError || submissionsToday >= MAX_SUBMISSION;
+    const isSubmissionBlocked = !token || isError || submissionsToday >= MAX_SUBMISSION;
 
     async function handleVote(id: string, type: string) {
         if (votesToday >= MAX_VOTES) {
@@ -75,11 +78,13 @@ export default function CommunityHub() {
 
     useEffect(() => {
         // Check localStorage on component mount
-        const hasSeen = localStorage.getItem("budgetbuddy_hasSeenGuide");
-        if (!hasSeen) {
-            setIsGuideModalOpen(true);
+        if (token) {
+            const hasSeen = localStorage.getItem("budgetbuddy_hasSeenGuide");
+            if (!hasSeen) {
+                setIsGuideModalOpen(true);
+            }
         }
-    }, []);
+    }, [token]);
 
     const renderCard = (item: any, isVotedTab: boolean, isVoting: boolean) => (
         <div key={item.id} className={`bg-white dark:bg-gray-800 border rounded-xl p-5 shadow-sm relative overflow-hidden transition-colors ${isVotedTab ? 'border-gray-200 dark:border-gray-700 opacity-80' : 'border-yellow-200 dark:border-yellow-600/50'}`}>
@@ -145,26 +150,28 @@ export default function CommunityHub() {
                     </div>
 
                     {/* Daily Progress Indicators */}
-                    <div className='flex flex-wrap gap-x-2'>
-                        <div className="items-center gap-3 mt-3 bg-white dark:bg-gray-800 px-4 py-2 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm inline-flex">
-                            <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">Daily Votes:</span>
-                            <div className="flex gap-1">
-                                {[...Array(MAX_VOTES)].map((_, i) => (
-                                    <div key={i} className={`w-6 h-2 rounded-full ${i < votesToday ? 'bg-orange-500' : 'bg-gray-200 dark:bg-gray-600'}`} />
-                                ))}
+                    {token && (
+                        <div className='flex flex-wrap gap-x-2'>
+                            <div className="items-center gap-3 mt-3 bg-white dark:bg-gray-800 px-4 py-2 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm inline-flex">
+                                <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">Daily Votes:</span>
+                                <div className="flex gap-1">
+                                    {[...Array(MAX_VOTES)].map((_, i) => (
+                                        <div key={i} className={`w-6 h-2 rounded-full ${i < votesToday ? 'bg-orange-500' : 'bg-gray-200 dark:bg-gray-600'}`} />
+                                    ))}
+                                </div>
+                                <span className="text-sm text-gray-500 ml-1">{votesToday}/{MAX_VOTES}</span>
                             </div>
-                            <span className="text-sm text-gray-500 ml-1">{votesToday}/{MAX_VOTES}</span>
-                        </div>
-                        <div className="items-center gap-3 mt-3 bg-white dark:bg-gray-800 px-4 py-2 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm inline-flex">
-                            <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">Daily Submissions:</span>
-                            <div className="flex gap-1">
-                                {[...Array(MAX_SUBMISSION)].map((_, i) => (
-                                    <div key={i} className={`w-6 h-2 rounded-full ${i < submissionsToday ? 'bg-orange-500' : 'bg-gray-200 dark:bg-gray-600'}`} />
-                                ))}
+                            <div className="items-center gap-3 mt-3 bg-white dark:bg-gray-800 px-4 py-2 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm inline-flex">
+                                <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">Daily Submissions:</span>
+                                <div className="flex gap-1">
+                                    {[...Array(MAX_SUBMISSION)].map((_, i) => (
+                                        <div key={i} className={`w-6 h-2 rounded-full ${i < submissionsToday ? 'bg-orange-500' : 'bg-gray-200 dark:bg-gray-600'}`} />
+                                    ))}
+                                </div>
+                                <span className="text-sm text-gray-500 ml-1">{submissionsToday}/{MAX_SUBMISSION}</span>
                             </div>
-                            <span className="text-sm text-gray-500 ml-1">{submissionsToday}/{MAX_SUBMISSION}</span>
                         </div>
-                    </div>
+                    )}
                 </div>
 
                 {/* Top Header Submit Button */}
@@ -197,7 +204,21 @@ export default function CommunityHub() {
 
             {/* CONDITIONAL RENDERING: Loading -> Error -> Empty State -> Grid */}
             {
-                isLoading ? (
+                !token ? (
+                    /* --- NOT LOGGED IN STATE --- */
+                    <div className="flex flex-col items-center justify-center py-20 px-4 bg-gray-50 dark:bg-gray-800/50 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl text-center">
+                        <div className="w-20 h-20 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-6">
+                            <Lock className="w-10 h-10 text-gray-400 dark:text-gray-500" />
+                        </div>
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Sign in to participate</h2>
+                        <p className="text-gray-500 dark:text-gray-400 max-w-md mb-8 leading-relaxed">
+                            Create an account or log in to review community price submissions and earn contribution points.
+                        </p>
+                        <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8" onClick={() => router.push('/authenticate')}>
+                            Sign In / Register
+                        </Button>
+                    </div>
+                ) : isLoading ? (
                     /* --- INLINE LOADING STATE --- */
                     <div className='flex items-center justify-center min-h-[40vh] py-20'>
                         <h2 className="text-lg font-medium dark:text-white">Loading community hub<span className="animated-dots"></span></h2>

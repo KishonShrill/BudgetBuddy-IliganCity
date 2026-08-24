@@ -93,7 +93,7 @@ export default function Header({ title, actionLabel, onAction, onLogout, user }:
                                             Go Home
                                         </button>
                                         <button
-                                            onClick={() => router.push('/profile')}
+                                            onClick={() => router.push('/budget-hub')}
                                             className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors"
                                         >
                                             <CircleUserRound className="h-4 w-4 text-gray-400" />

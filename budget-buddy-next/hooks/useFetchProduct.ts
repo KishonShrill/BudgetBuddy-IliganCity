@@ -5,7 +5,7 @@ const DEVELOPMENT = process.env.NEXT_PUBLIC_DEVELOPMENT === "true";
 const LOCALHOST = process.env.NEXT_PUBLIC_LOCALHOST;
 const API_VERSION = process.env.NEXT_PUBLIC_API_VERSION;
 
-const useFetchProduct = (productId: string) => {
+const useFetchProduct = (productId: string | null) => {
     const DATBASE_URL = DEVELOPMENT
         ? `http://${LOCALHOST}:5000/api/${API_VERSION}/products/${productId}`
         : `https://iliganproductprice-mauve.vercel.app/api/${API_VERSION}/products/${productId}`;

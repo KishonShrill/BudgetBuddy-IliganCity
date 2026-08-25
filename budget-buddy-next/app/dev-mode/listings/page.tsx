@@ -128,9 +128,12 @@ export default function Listings() {
             )
             .match(
                 (response) => {
+                    console.log(response)
+                    console.log(item)
                     queryClient.setQueryData(["fetchedListings_Admin"], (oldData: any) => {
                         if (!oldData) return [];
                         const dataArray = Array.isArray(oldData.data) ? oldData.data : oldData;
+                        console.log("First listing:", dataArray[0]);
                         const filtered = dataArray.filter((listing: ListingItem) => listing._id !== item._id);
 
                         return oldData.data ? { ...oldData, data: filtered } : filtered;

@@ -12,7 +12,7 @@ const useFetchListings = (token: string | undefined, totalItems = 0) => {
         : `https://iliganproductprice-mauve.vercel.app/api/${API_VERSION}/listings`;
 
     return useQuery({
-        queryKey: ['fetchedListings_Admin', totalItems, token],
+        queryKey: totalItems != 0 ? ['fetchedListings_Admin', totalItems] : ['fetchedListings_Admin'],
         queryFn: async () => {
             if (!token) throw new Error("No token provided");
 

@@ -167,7 +167,7 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
     const totalQty = Object.values(cartItems).reduce((sum, item: any) => sum + item.quantity, 0);
 
     return (
-        <div className="h-[calc(100dvh-134px)] md:h-[calc(100dvh-65px)] overflow-y-auto overflow-x-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <div className="h-[calc(100dvh-134px)] md:h-[calc(100dvh-65px)] flex flex-col overflow-y-auto overflow-x-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
             {/* Audio Element */}
             <audio ref={audioRef} src="/sounds/click-pop.mp3" preload="auto" />
 
@@ -185,11 +185,11 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
             </div>
 
             {/* Navigation Tabs */}
-            <nav className="flex overflow-x-auto gap-2 px-5 py-4 scrollbar-hide bg-gray-50 dark:bg-gray-900 max-w-400 mx-auto">
+            <nav className="max-w-400 w-full mx-auto flex shrink-0 overflow-x-auto gap-2 px-5 py-4 scrollbar-hide bg-gray-50 dark:bg-gray-900">
                 <Button
                     variant={selectedCatalog === 'All' ? 'default' : 'outline'}
                     size="sm"
-                    className={`rounded-full whitespace-nowrap transition-all ${selectedCatalog === 'All' ? 'bg-[#ee4d2d] hover:bg-[#d63916] text-white border-transparent' : 'bg-white dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700'}`}
+                    className={`cursor-pointer rounded-full whitespace-nowrap transition-all ${selectedCatalog === 'All' ? 'bg-[#ee4d2d] hover:bg-[#d63916] text-white border-transparent' : 'bg-white dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700'}`}
                     onClick={() => setSelectedCatalog('All')}
                 >
                     All Items
@@ -200,7 +200,7 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
                         key={catalog}
                         variant={selectedCatalog === catalog ? 'default' : 'outline'}
                         size="sm"
-                        className={`rounded-full whitespace-nowrap transition-all ${selectedCatalog === catalog ? 'bg-[#ee4d2d] hover:bg-[#d63916] text-white border-transparent' : 'bg-white dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700'}`}
+                        className={`cursor-pointer rounded-full whitespace-nowrap transition-all ${selectedCatalog === catalog ? 'bg-[#ee4d2d] hover:bg-[#d63916] text-white border-transparent' : 'bg-white dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700'}`}
                         onClick={() => setSelectedCatalog(catalog)}
                     >
                         {catalog}
@@ -209,7 +209,7 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
             </nav>
 
             {/* ✨ MAIN FLEX LAYOUT ✨ */}
-            <div className="flex flex-col md:flex-row gap-6 px-5 pb-8 relative max-w-400 mx-auto items-start z-20">
+            <div className="flex flex-col grow md:flex-row gap-6 px-5 pb-8 relative max-w-400 mx-auto items-start z-20">
 
                 {/* LEFT SIDE: Product Grid */}
                 <section className="flex-1 min-w-0 transition-colors">
@@ -308,11 +308,6 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
                             )}
                         </>
                     )}
-
-                    <div className="mt-12 flex flex-wrap justify-center gap-x-1 text-gray-500 dark:text-gray-400">
-                        <p className="text-center">Don&apos;t see the product you&apos;re looking for?</p>
-                        <Link href="/contribution" className="text-orange-500 hover:font-bold">Contribute with us</Link>
-                    </div>
                 </section>
 
                 {/* RIGHT SIDE: Cart Sidebar / Mobile Overlay */}
@@ -332,6 +327,11 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
                     onClose={() => setHistoryModalOpen(false)}
                     listing={selectedHistoryItem}
                 />
+            </div>
+
+            <div className="my-6 flex flex-wrap justify-center gap-x-1 text-gray-500 dark:text-gray-400">
+                <p className="text-center">Don&apos;t see the product you&apos;re looking for?</p>
+                <Link href="/contribution" className="text-orange-500 hover:font-bold">Contribute with us</Link>
             </div>
 
             {/* Animation Overlay */}

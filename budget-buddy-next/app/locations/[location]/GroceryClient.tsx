@@ -10,6 +10,7 @@ import Cart from "@/components/parts/Cart";
 import ProductCard from '@/components/parts/ProductCard';
 import Searchbar from "@/components/parts/Searchbar";
 import SimpleFooter from "@/components/parts/SimpleFooter";
+import PriceHistoryModal from "@/components/parts/PriceHistoryModal";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -30,6 +31,8 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
 
     const [count, setCount] = useState(0);
     const [receiptVisible, setReceiptVisible] = useState(false);
+    const [historyModalOpen, setHistoryModalOpen] = useState(false);
+    const [selectedHistoryItem, setSelectedHistoryItem] = useState<any>(null);
     const [search, setSearch] = useState('');
     const [animatingCards, setAnimatingCards] = useState<any[]>([]);
     const [selectedCatalog, setSelectedCatalog] = useState('All');
@@ -81,6 +84,12 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
         });
         return Array.from(uniqueCatalogs).sort();
     }, [data]);
+
+    const handleViewHistory = useCallback((item: any) => {
+        setSelectedHistoryItem(item);
+        setHistoryModalOpen(true);
+    }, []);
+
 
     const handleClick = useCallback((el: HTMLElement) => {
         const { productId, productName, productPrice, productLocation, productImage } = el.dataset;
@@ -247,6 +256,7 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
                                         key={item._id}
                                         item={item}
                                         onAdd={(event) => handleClick(event.currentTarget)}
+                                        onViewHistory={handleViewHistory}
                                     />
                                 ))}
                             </main>
@@ -315,6 +325,12 @@ export default function GroceryClient({ locationId }: GroceryClientProps) {
                     onRemoveAll={() => dispatch(clearAll())}
                     receipt={receiptVisible}
                     addToast={addToast}
+                />
+
+                <PriceHistoryModal
+                    isOpen={historyModalOpen}
+                    onClose={() => setHistoryModalOpen(false)}
+                    listing={selectedHistoryItem}
                 />
             </div>
 

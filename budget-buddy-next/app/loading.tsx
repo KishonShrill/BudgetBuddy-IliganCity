@@ -9,8 +9,8 @@ export default function Loading(): React.JSX.Element {
                 <div className="absolute h-24 w-24 animate-ping rounded-full bg-orange-500/20 dark:bg-orange-500/10"></div>
 
                 {/* Inner branded circle */}
-                <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-tr from-orange-500 to-orange-400 text-white shadow-lg shadow-orange-500/30">
-                    <ShoppingBag className="h-8 w-8 animate-bounce" />
+                <div className="animate-bounce relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-tr from-orange-500 to-orange-400 text-white shadow-lg shadow-orange-500/30">
+                    <ShoppingBag className="h-8 w-8" />
                 </div>
             </div>
 

@@ -6,7 +6,7 @@
     "scripts": {
         "prestart": "node swagger.js",
         "start": "node server.mjs",
-        "start:dev": "nodemon server.mjs",
+        "start:dev": "nodemon -w .env server.mjs",
         "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
         "generate:swagger": "node swagger.js"
     },

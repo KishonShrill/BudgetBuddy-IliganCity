@@ -25,8 +25,8 @@ const About = () => {
     ];
 
     return (
-        < section id="about" className="py-20 bg-linear-to-br from-gray-50 to-orange-50 dark:from-gray-800 dark:to-gray-900 transition-colors duration-300" >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        < section id="about" className="snap-start xl:h-[calc(100dvh-62px)] py-20 bg-linear-to-br from-gray-50 to-orange-50 dark:from-gray-800 dark:to-gray-900 transition-colors duration-300" >
+            <div className="xl:h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center">
                 <div className="grid lg:grid-cols-2 gap-16 max-md:gap-6 items-center">
                     {/* Left Content */}
                     <div>

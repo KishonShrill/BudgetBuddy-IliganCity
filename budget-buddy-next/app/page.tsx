@@ -35,13 +35,13 @@ export default function HomePage() {
     }, [pathname]); // Triggers on route change
 
     return (
-        <main id="homepage" className="relative w-full">
+        <>
             <Hero />
             <Features />
             <About />
             <HowItWorks />
             <Footer />
-        </main>
+        </>
     );
 }
 

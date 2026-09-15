@@ -42,10 +42,10 @@ const Features = () => {
     ];
 
     return (
-        < section id="features" className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300" >
+        <section id="features" className="snap-start py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
-                <div className="text-center mb-16 max-md:mb-4">
+                <div className="text-center mb-4 md:mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                         Powerful Features for{' '}
                         <span className="text-transparent bg-clip-text bg-linear-to-r from-[#ee4d2d] to-[#ff6b47]">
@@ -58,20 +58,20 @@ const Features = () => {
                 </div>
 
                 {/* Features Grid */}
-                <div className="select-none grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+                <div className="select-none grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     {features.map((feature, index) => (
                         <div
                             key={index}
                             className="max-sm:h-fit shadow-lg group p-8 max-sm:p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-[#ee4d2d]/20 dark:hover:border-[#ee4d2d]/40 hover:shadow-xl dark:hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
                         >
-                            <div className='max-sm:flex max-sm:gap-4 max-sm:mb-2'>
+                            <div className='flex gap-4 pb-4'>
                                 {/* Icon */}
-                                <div className={`w-16 h-16 max-sm:w-14 max-sm:h-14 max-sm:my-auto bg-linear-to-br ${feature.color} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-md`}>
+                                <div className={`w-16 h-16 max-sm:w-14 max-sm:h-14 my-auto bg-linear-to-br ${feature.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-md`}>
                                     <feature.icon className="w-8 h-8 text-white" />
                                 </div>
 
                                 {/* Content */}
-                                <h3 className="max-sm:h-fit max-sm:my-auto text-xl font-bold text-gray-900 dark:text-white sm:mb-3 group-hover:text-[#ee4d2d] dark:group-hover:text-orange-400 transition-colors duration-300">
+                                <h3 className="h-fit my-auto text-xl font-bold text-gray-900 dark:text-white group-hover:text-[#ee4d2d] dark:group-hover:text-orange-400 transition-colors duration-300">
                                     {feature.title}
                                 </h3>
                             </div>

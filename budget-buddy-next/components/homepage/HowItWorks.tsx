@@ -28,71 +28,8 @@ const HowItWorks = () => {
     return (
         <section id="how-it-works" className="snap-start py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Header */}
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                        How Budget Buddy{' '}
-                        <span className="text-transparent bg-clip-text bg-linear-to-r from-[#ee4d2d] to-[#ff6b47]">
-                            Works
-                        </span>
-                    </h2>
-                    <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                        Get started in three simple steps and take control of your shopping budget today.
-                    </p>
-                </div>
-
-                {/* Steps */}
-                <div className="relative px-4">
-                    {/* Connection Lines (Desktop) */}
-                    <div className="hidden lg:block absolute top-24 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">
-                        <div className="flex justify-between items-center">
-                            <div className="w-1/3 h-0.5 bg-linear-to-r from-[#ee4d2d] to-[#ff6b47]"></div>
-                            <div className="w-1/3 h-0.5 bg-linear-to-r from-[#ee4d2d] to-[#ff6b47]"></div>
-                        </div>
-                    </div>
-
-                    <div className="grid max-sm:grid-cols-1 grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-                        {steps.map((step, index) => (
-                            <div key={index} className="relative group">
-                                {/* Step Number */}
-                                <div className="absolute -top-4 -left-4 w-8 h-8 bg-linear-to-r from-[#ee4d2d] to-[#ff6b47] rounded-full flex items-center justify-center text-white font-bold text-sm z-10 group-hover:scale-125 transition-transform duration-300">
-                                    {index + 1}
-                                </div>
-
-                                {/* Card */}
-                                <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-[#ee4d2d]/20 dark:hover:border-[#ee4d2d]/40 hover:shadow-xl dark:hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 h-full">
-                                    <div className='max-sm:flex max-sm:gap-4 max-sm:mb-2'>
-                                        {/* Icon */}
-                                        <div className={`w-16 h-16 max-sm:w-14 max-sm:h-14 max-sm:my-auto bg-linear-to-br from-[#ee4d2d] to-[#ff6b47] rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-md`}>
-                                            <step.icon className="w-8 h-8 text-white" />
-                                        </div>
-
-                                        {/* Content */}
-                                        <h3 className="max-sm:h-fit max-sm:my-auto text-xl font-bold text-gray-900 dark:text-white sm:mb-3 group-hover:text-[#ee4d2d] dark:group-hover:text-orange-400 transition-colors duration-300">
-                                            {step.title}
-                                        </h3>
-                                    </div>
-                                    <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                                        {step.description}
-                                    </p>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-                                        {step.details}
-                                    </p>
-
-                                    {/* Arrow for mobile - Step logic */}
-                                    {index < steps.length - 1 && step.link && (
-                                        <Link href={step.link} className="lg:hidden flex justify-center mt-4 p-2">
-                                            <ArrowRight className="w-6 h-6 text-[#ee4d2d]" />
-                                        </Link>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
                 {/* Demo Section */}
-                <div className="mt-20 max-sm:mt-15 bg-linear-to-br from-[#ee4d2d]/5 to-orange-50 dark:from-gray-800/80 dark:to-gray-800/40 rounded-3xl p-8 md:p-12 border border-transparent dark:border-gray-700">
+                <div className="bg-linear-to-br from-[#ee4d2d]/5 to-orange-50 dark:from-gray-800/80 dark:to-gray-800/40 rounded-3xl p-8 md:p-12 border border-transparent dark:border-gray-700">
                     <div className="text-center mb-8">
                         <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
                             See It In Action

@@ -42,8 +42,8 @@ const Features = () => {
     ];
 
     return (
-        <section id="features" className="snap-start py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="features" className="snap-start lg:h-[calc(100dvh-62px)] lg:flex lg:items-center py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 translate-y-[-32px]">
                 {/* Header */}
                 <div className="text-center mb-4 md:mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -80,19 +80,6 @@ const Features = () => {
                             </p>
                         </div>
                     ))}
-                </div>
-
-                {/* Bottom CTA */}
-                <div className="text-center mt-16 max-md:mt-8">
-                    {/* FIX 3: Softened the CTA pill background and text for dark mode (matching the Hero badge) */}
-                    <div className="inline-flex flex-wrap items-center justify-center gap-4 bg-linear-to-r from-[#ee4d2d]/10 to-orange-100 dark:from-[#ee4d2d]/20 dark:to-orange-900/30 px-6 py-3 rounded-full border border-transparent dark:border-orange-900/50">
-                        <span className="text-[#ee4d2d] dark:text-orange-400 font-medium max-md:text-sm select-none">
-                            Ready to start saving money?
-                        </span>
-                        <Link href="/locations" className="bg-linear-to-r from-[#ee4d2d] to-[#ff6b47] text-white px-6 py-2 rounded-full font-semibold max-md:text-sm hover:shadow-lg hover:scale-105 transition-all duration-300">
-                            Try Budget Buddy
-                        </Link>
-                    </div>
                 </div>
             </div>
         </section >

@@ -1,0 +1,6 @@
+name = "hono-server"
+compatibility_date = "2026-09-25"
+main = "src/index.ts"
+
+[observability]
+enabled = true

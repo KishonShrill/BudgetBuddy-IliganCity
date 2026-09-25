@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Detailed Migration Prompt - Express to Hono/Cloudflare",
+    "prompt": "You are a senior full-stack engineer and expert in Hono and Cloudflare Workers migration. I need to convert my Express.js backend (in the /server folder) to a Hono app running on Cloudflare Workers.
+
+The migration must address the following constraints:
+1. **Edge Environment**: Replace all Node.js-only dependencies with Web-standard alternatives:
+    - Replace 'bcrypt' with 'subtle crypto' API.
+    - Replace 'jsonwebtoken' with 'jose' (or'@hono/jose').
+    - Replace 'axios' with the global 'fetch'.
+2. **Library Substitutions**:
+    - Express -> Hono (use Hono context `c` instead of `req`, `res`).
+    - Migrate Express middlewares (cors, morgan, etc.) to equivalent Hono middleware.
+    - Convert route handlers systematically.
+3. **Mongoose/MongoDB Strategy**: The backend currently uses Mongoose. Since Mongoose is tightly coupled to Node.js, please advise on how to handle database connectivity efficiently in Edge, or suggest a suitable alternative (e.g., using MongoDB Atlas Data API or Prisma if feasible).
+
+Please provide a step-by-step migration plan, followed by the actual code refactoring, starting with the server entry point (main.ts/server.ts) and then route by route. Ensure the final code is fully compatible with Cloudflare Workers' execution environment."
+  }
+]

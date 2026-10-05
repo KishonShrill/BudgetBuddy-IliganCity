@@ -1,0 +1,19 @@
+# MongoDB Connection
+HIDDEN_URI="mongodb+srv://<username>:<password>@<cluster>.mongodb.net/productprice"
+
+# Authentication
+JWT_SECRET="your-jwt-secret-key"
+
+# Application Settings
+VITE_DEVELOPMENT="true"
+VITE_LOCALHOST="localhost"
+VITE_CLIENT_ID="your-google-client-id"
+
+# Security & Reporting
+RECAPTCHA_SECRETKEY="your-recaptcha-secret"
+DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/..."
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME="your-cloud-name"
+CLOUDINARY_API_KEY="your-api-key"
+CLOUDINARY_API_SECRET="your-api-secret"

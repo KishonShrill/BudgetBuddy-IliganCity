@@ -81,22 +81,14 @@ app.use('/api/*', async (c, next) => {
   if (c.env.HIDDEN_URI) {
     await connectToDatabase(c.env.HIDDEN_URI);
   }
-  try {
-    await next();
-  } finally {
-    await disconnectDatabase();
-  }
+  await next();
 });
 
 app.use('/auth/*', async (c, next) => {
   if (c.env.HIDDEN_URI) {
     await connectToDatabase(c.env.HIDDEN_URI);
   }
-  try {
-    await next();
-  } finally {
-    await disconnectDatabase();
-  }
+  await next();
 });
 
 // 4. Swagger UI Documentation

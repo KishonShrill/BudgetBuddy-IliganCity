@@ -13,8 +13,6 @@
         "enabled": true
     },
     "vars": {
-        "VITE_DEVELOPMENT": "true",
-        "VITE_LOCALHOST": "0.0.0.0",
         "VITE_CLIENT_ID": "794080717239-4ups19cf4sa870rjuj9egqhdlb2jaq9b.apps.googleusercontent.com",
         "CLOUDINARY_CLOUD_NAME": "dlmabgte3"
     }

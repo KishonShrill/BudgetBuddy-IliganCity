@@ -98,8 +98,8 @@ export default function BudgetHub() {
     }, []);
 
     return (
-        <div>
-            <div className="mx-auto flex min-h-[calc(100vh-64px)] max-w-6xl flex-col p-4 sm:p-6 lg:p-10 transition-colors duration-300">
+        <div className="min-h-[calc(100dvh-65px)] lg:h-[calc(100dvh-65px)] flex flex-col justify-between overflow-y-auto bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+            <div className="mx-auto flex w-full max-w-6xl flex-col p-4 sm:p-6 lg:p-10 transition-colors duration-300">
 
                 {/* Welcome Section */}
                 <div className="flex items-center justify-between rounded-3xl bg-linear-to-r from-orange-500 to-orange-400 p-6 sm:p-8 text-white shadow-lg dark:shadow-orange-900/20" >

@@ -135,8 +135,9 @@ export default function CommunityHub() {
     );
 
     return (
-        <div className="max-w-6xl mx-auto p-4 md:p-8">
-            <div className="flex flex-wrap md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div className="min-h-[calc(100dvh-65px)] lg:h-[calc(100dvh-65px)] overflow-y-auto bg-gray-50 dark:bg-gray-900 transition-colors duration-300 p-4 md:p-8">
+            <div className="max-w-6xl mx-auto">
+                <div className="flex flex-wrap md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <div>
                     <div className="flex items-center gap-3">
                         <h1 className="text-3xl font-black text-gray-900 dark:text-white">Community Hub</h1>
@@ -278,6 +279,7 @@ export default function CommunityHub() {
                 isOpen={isGuideModalOpen}
                 onClose={() => setIsGuideModalOpen(false)}
             />
+            </div>
         </div>
     );
 }

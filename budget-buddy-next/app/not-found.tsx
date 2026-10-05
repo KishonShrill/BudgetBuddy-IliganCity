@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
     return (
-        <div className="bg-gradient-to-br from-gray-50 via-white to-orange-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-900 flex items-center justify-center px-4 overflow-hidden relative min-h-[calc(100vh-76px)] transition-colors duration-300">
+        <div className="bg-gradient-to-br from-gray-50 via-white to-orange-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-900 flex items-center justify-center px-4 overflow-hidden relative min-h-[calc(100dvh-65px)] lg:h-[calc(100dvh-65px)] overflow-y-auto transition-colors duration-300">
 
             {/* Background Ambient Glows */}
             <div className="absolute top-20 left-10 w-64 h-64 bg-orange-500/10 dark:bg-orange-500/5 rounded-full blur-[80px] animate-pulse pointer-events-none -z-10"></div>

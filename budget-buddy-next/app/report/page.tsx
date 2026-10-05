@@ -36,7 +36,7 @@ const ReportPage = () => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const handleReportSubmit = (e: React.FormEvent) => {
+    const handleReportSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
         setUrlError("");
@@ -156,9 +156,10 @@ const ReportPage = () => {
     };
 
     return (
-        <div className="mx-auto flex min-h-[calc(100vh-65px)] max-w-3xl flex-col p-4 sm:p-6 lg:p-10 transition-colors duration-300">
-            <button
-                onClick={() => router.push('/budget-hub')}
+        <div className="min-h-[calc(100dvh-65px)] lg:h-[calc(100dvh-65px)] overflow-y-auto bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+            <div className="mx-auto flex max-w-3xl flex-col p-4 sm:p-6 lg:p-10">
+                <button
+                    onClick={() => router.push('/budget-hub')}
                 className="mb-6 self-start flex items-center gap-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 shadow-sm transition-colors hover:bg-gray-50 dark:hover:bg-gray-700"
             >
                 <ArrowLeft size={16} />
@@ -269,6 +270,7 @@ const ReportPage = () => {
                         )}
                     </button>
                 </form>
+            </div>
             </div>
         </div>
     );

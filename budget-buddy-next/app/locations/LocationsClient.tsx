@@ -12,8 +12,8 @@ export default function LocationsClient() {
     const { data: locations, isError } = useFetchLocations();
 
     return (
-        <div className="bg-white dark:bg-gray-900 transition-colors duration-300">
-            <div className="min-h-[calc(100vh-129px-62px)]">
+        <div className="min-h-[calc(100dvh-65px)] lg:h-[calc(100dvh-65px)] flex flex-col justify-between overflow-y-auto bg-white dark:bg-gray-900 transition-colors duration-300">
+            <div className="grow">
                 <section className="mx-auto max-w-6xl py-6 px-4 lg:p-10">
                     <div className="mb-8 text-center">
                         <h1 className="text-3xl font-black text-gray-900 dark:text-gray-50 md:text-5xl">

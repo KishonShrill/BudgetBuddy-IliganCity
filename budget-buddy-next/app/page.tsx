@@ -35,13 +35,13 @@ export default function HomePage() {
     }, [pathname]); // Triggers on route change
 
     return (
-        <>
+        <div className="min-h-[calc(100dvh-65px)] lg:h-[calc(100dvh-65px)] relative overflow-y-auto md:snap-y md:snap-mandatory dark:bg-gray-800">
             <Hero />
             <Features />
             <About />
             <HowItWorks />
             <Footer />
-        </>
+        </div>
     );
 }
 

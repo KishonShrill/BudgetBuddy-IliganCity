@@ -1,22 +1,20 @@
 import mongoose from 'mongoose';
 
-let cachedPromise: Promise<typeof mongoose> | null = null;
-
 export async function connectToDatabase(uri: string): Promise<typeof mongoose> {
   if (!uri) {
     throw new Error('Database connection URI (HIDDEN_URI) is not configured.');
   }
 
-  // Disable buffering globally so queries fail fast if connection drops
+  // Disable buffering globally so queries fail fast if disconnected
   mongoose.set('bufferCommands', false);
 
-  if (mongoose.connection.readyState === 1) {
-    return mongoose;
-  }
-
-  // If a connection is already in progress, reuse the pending promise
-  if (cachedPromise && mongoose.connection.readyState === 2) {
-    return cachedPromise;
+  // If there is any stale socket from a previous frozen isolate context, clean it up first
+  if (mongoose.connection.readyState !== 0) {
+    try {
+      await mongoose.disconnect();
+    } catch {
+      // Ignore disconnect errors on stale handles
+    }
   }
 
   const opts = {
@@ -26,12 +24,7 @@ export async function connectToDatabase(uri: string): Promise<typeof mongoose> {
     maxPoolSize: 1,
   };
 
-  cachedPromise = mongoose.connect(uri, opts).catch((err) => {
-    cachedPromise = null;
-    throw err;
-  });
-
-  return await cachedPromise;
+  return await mongoose.connect(uri, opts);
 }
 
 export async function disconnectDatabase(): Promise<void> {
@@ -39,10 +32,7 @@ export async function disconnectDatabase(): Promise<void> {
     if (mongoose.connection.readyState !== 0) {
       await mongoose.disconnect();
     }
-    cachedPromise = null;
   } catch (err) {
     console.error('Error disconnecting from database:', err);
   }
 }
-
-

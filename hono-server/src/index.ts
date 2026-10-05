@@ -76,19 +76,27 @@ app.use('*', async (c, next) => {
   return corsMiddleware(c, next);
 });
 
-// 3. Database connection middleware for API and Auth routes
+// 3. Database connection middleware for API and Auth routes (Edge compute lifecycle)
 app.use('/api/*', async (c, next) => {
   if (c.env.HIDDEN_URI) {
     await connectToDatabase(c.env.HIDDEN_URI);
   }
-  await next();
+  try {
+    await next();
+  } finally {
+    await disconnectDatabase();
+  }
 });
 
 app.use('/auth/*', async (c, next) => {
   if (c.env.HIDDEN_URI) {
     await connectToDatabase(c.env.HIDDEN_URI);
   }
-  await next();
+  try {
+    await next();
+  } finally {
+    await disconnectDatabase();
+  }
 });
 
 // 4. Swagger UI Documentation

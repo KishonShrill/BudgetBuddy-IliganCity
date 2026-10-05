@@ -9,8 +9,9 @@ interface DocumentPageProps {
 
 export default function DocumentPage({ title, content }: DocumentPageProps) {
     return (
-        <div className="mx-auto max-w-4xl p-6 max-md:px-2 py-2 lg:p-10 relative min-h-screen transition-colors duration-300">
-            <style>{`
+        <div className="min-h-[calc(100dvh-65px)] lg:h-[calc(100dvh-65px)] overflow-y-auto bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+            <div className="mx-auto max-w-4xl p-6 max-md:px-2 py-2 lg:p-10 relative">
+                <style>{`
                 /* Base Styles */
                 .markdown-body h2 { font-size: 1.5rem; font-weight: 800; color: #1f2937; margin-top: 2rem; margin-bottom: 0.75rem; }
                 .markdown-body h2:first-child { margin-top: 0; }
@@ -68,6 +69,7 @@ export default function DocumentPage({ title, content }: DocumentPageProps) {
                 <div className="markdown-body p-6 sm:p-10">
                     <ReactMarkdown>{content}</ReactMarkdown>
                 </div>
+            </div>
             </div>
         </div>
     );

@@ -119,7 +119,7 @@ export default function AuthPage() {
     if (token) return null;
 
     return (
-        < main className="px-8 flex justify-center items-center min-h-[calc(100vh-7.75rem)] py-8 transition-colors duration-300 bg-gray-50 dark:bg-gray-900" >
+        <div className="px-8 flex justify-center items-center min-h-[calc(100dvh-65px)] lg:h-[calc(100dvh-65px)] py-8 transition-colors duration-300 bg-gray-50 dark:bg-gray-900 overflow-y-auto">
             <div className="w-full max-w-md">
                 <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_CLIENT_ID!}>
                     <form
@@ -239,6 +239,6 @@ export default function AuthPage() {
                     </form>
                 </GoogleOAuthProvider>
             </div>
-        </main >
+        </div>
     );
 }

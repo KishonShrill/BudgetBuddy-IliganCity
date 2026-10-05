@@ -66,11 +66,11 @@ const Hero = () => {
     };
 
     return (
-        <section className="relative lg:h-[calc(100dvh-62px)] flex items-center pt-12 pb-16 bg-orange-50 dark:bg-gray-900 overflow-visible transition-colors duration-300">
+        <section className="snap-start relative lg:h-[calc(100dvh-62px)] flex items-center pt-12 pb-16 bg-orange-50 dark:bg-gray-900 overflow-hidden transition-colors duration-300">
             <div className="max-w-[96rem] mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid lg:grid-cols-2 gap-12 max-md:gap-6 items-center">
                     {/* Left Content */}
-                    <div className="text-center lg:text-left">
+                    <div className="text-center lg:text-left xl:ml-20">
                         {/* FIX 2: Softened the badge background and text for dark mode */}
                         <div className="select-none inline-flex items-center bg-linear-to-r from-[#ee4d2d]/10 to-orange-100 dark:from-[#ee4d2d]/20 dark:to-orange-900/30 px-4 py-2 rounded-full text-[#ee4d2d] dark:text-orange-400 font-medium text-sm mb-6 hover:scale-105 transition-transform duration-300">
                             <Shield className="w-4 h-4 mr-2" />

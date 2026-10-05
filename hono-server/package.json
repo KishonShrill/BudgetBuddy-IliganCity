@@ -1,0 +1,25 @@
+{
+    "name": "hono-server",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "wrangler dev --port 5000 --ip 0.0.0.0",
+        "deploy": "wrangler deploy",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "@hono/swagger-ui": "^0.5.0",
+        "bcryptjs": "^3.0.3",
+        "hono": "^4.7.2",
+        "mongoose": "^8.12.1",
+        "neverthrow": "^8.2.0"
+    },
+    "devDependencies": {
+        "@cloudflare/workers-types": "^4.20250224.0",
+        "@types/bcryptjs": "^2.4.6",
+        "@types/node": "^22.13.9",
+        "typescript": "^5.8.2",
+        "wrangler": "^3.111.0"
+    }
+}

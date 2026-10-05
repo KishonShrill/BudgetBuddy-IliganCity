@@ -97,7 +97,7 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="bg-gray-900 text-white dark:border-t dark:border-gray-800">
+        <footer className="snap-start bg-gray-900 text-white dark:border-t dark:border-gray-800">
             <div className="max-w-7xl mx-auto px-8 py-16">
                 <div className="grid lg:grid-cols-6 gap-8">
                     {/* Brand Section */}

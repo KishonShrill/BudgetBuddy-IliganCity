@@ -1,0 +1,19 @@
+{
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "budget-buddy-server",
+    "main": "src/index.ts",
+    "compatibility_date": "2024-09-23",
+    "compatibility_flags": [
+        "nodejs_compat"
+    ],
+    "alias": {
+        "mongoose": "./node_modules/mongoose/index.js"
+    },
+    "observability": {
+        "enabled": true
+    },
+    "vars": {
+        "VITE_DEVELOPMENT": "true",
+        "VITE_LOCALHOST": "0.0.0.0"
+    }
+}

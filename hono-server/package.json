@@ -1,5 +1,5 @@
 {
-    "name": "hono-server",
+    "name": "budgetbuddy-server",
     "version": "1.0.0",
     "private": true,
     "type": "module",

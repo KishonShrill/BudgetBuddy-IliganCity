@@ -24,6 +24,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
     onAddToCart,
     isInCart = false,
 }) => {
+    const productName = listing.product?.product_name;
     const storeName = listing.location?.name || "Unknown Store";
     const price = listing.updated_price;
 
@@ -56,13 +57,12 @@ export const StoreCard: React.FC<StoreCardProps> = ({
 
     return (
         <div
-            className={`relative flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl border transition-all duration-200 ${
-                isLowest
-                    ? "bg-amber-50/40 dark:bg-amber-950/15 border-amber-300 dark:border-amber-800/80 shadow-sm"
-                    : isReferenceStore
+            className={`relative flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl border transition-all duration-200 ${isLowest
+                ? "bg-amber-50/40 dark:bg-amber-950/15 border-amber-300 dark:border-amber-800/80 shadow-sm"
+                : isReferenceStore
                     ? "bg-orange-50/30 dark:bg-orange-950/20 border-orange-300 dark:border-orange-800/60 shadow-sm"
                     : "bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 shadow-xs"
-            }`}
+                }`}
         >
             {/* Store Information */}
             <div className="flex-1 min-w-0">
@@ -84,6 +84,9 @@ export const StoreCard: React.FC<StoreCardProps> = ({
                         <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 leading-snug">
                             {storeName}
                         </h3>
+                        <p className="text-gray-500 leading-snug">
+                            {productName}
+                        </p>
                         <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-gray-500 dark:text-gray-400">
                             <span className="flex items-center gap-1">
                                 <Clock className="w-3 h-3" />
@@ -107,11 +110,10 @@ export const StoreCard: React.FC<StoreCardProps> = ({
                         Price
                     </span>
                     <span
-                        className={`text-2xl font-black ${
-                            isLowest
-                                ? "text-amber-600 dark:text-amber-400"
-                                : "text-orange-600 dark:text-orange-400"
-                        }`}
+                        className={`text-2xl font-black ${isLowest
+                            ? "text-amber-600 dark:text-amber-400"
+                            : "text-orange-600 dark:text-orange-400"
+                            }`}
                     >
                         ₱{price?.toFixed(2)}
                     </span>
@@ -119,11 +121,10 @@ export const StoreCard: React.FC<StoreCardProps> = ({
 
                 <Button
                     onClick={() => onAddToCart(listing)}
-                    className={`cursor-pointer rounded-xl font-semibold gap-1.5 transition-all ${
-                        isInCart
-                            ? "bg-emerald-600 hover:bg-emerald-700 text-white"
-                            : "bg-[#ee4d2d] hover:bg-[#d63916] text-white shadow-sm hover:shadow-md"
-                    }`}
+                    className={`cursor-pointer rounded-xl font-semibold gap-1.5 transition-all ${isInCart
+                        ? "bg-emerald-600 hover:bg-emerald-700 text-white"
+                        : "bg-[#ee4d2d] hover:bg-[#d63916] text-white shadow-sm hover:shadow-md"
+                        }`}
                 >
                     {isInCart ? (
                         <>

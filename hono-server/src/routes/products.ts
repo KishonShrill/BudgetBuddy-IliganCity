@@ -28,6 +28,34 @@ products.get('/', userVerify, async (c) => {
   }
 });
 
+// GET /api/v1/products/search - Public search for products by keyword
+products.get('/search', async (c) => {
+  try {
+    const query = c.req.query('q') || c.req.query('search') || c.req.query('name') || '';
+    if (!query.trim()) {
+      return c.json([]);
+    }
+    const decoded = decodeURIComponent(query.trim());
+    const escaped = decoded.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(escaped, 'i');
+
+    const matchedProducts = await Product.find({
+      $or: [
+        { product_name: { $regex: regex } },
+        { product_id: { $regex: regex } },
+        { 'category.catalog': { $regex: regex } },
+      ],
+    })
+      .limit(30)
+      .lean();
+
+    return c.json(matchedProducts);
+  } catch (error: any) {
+    console.error('Error searching products:', error);
+    return c.json({ message: error.message }, 500);
+  }
+});
+
 // GET /api/v1/products/:id - Fetch single product by MongoDB _id
 products.get('/:id', async (c) => {
   const id = c.req.param('id');

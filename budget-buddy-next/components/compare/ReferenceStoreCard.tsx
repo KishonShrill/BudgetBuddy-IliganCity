@@ -98,11 +98,10 @@ export const ReferenceStoreCard: React.FC<ReferenceStoreCardProps> = ({
                         {onAddToCart && (
                             <Button
                                 onClick={() => onAddToCart(listing)}
-                                className={`cursor-pointer rounded-xl font-semibold gap-1.5 transition-all ${
-                                    isInCart
-                                        ? "bg-emerald-600 hover:bg-emerald-700 text-white"
-                                        : "bg-[#ee4d2d] hover:bg-[#d63916] text-white shadow-sm"
-                                }`}
+                                className={`cursor-pointer rounded-xl font-semibold gap-1.5 transition-all ${isInCart
+                                    ? "bg-emerald-600 hover:bg-emerald-700 text-white"
+                                    : "bg-[#ee4d2d] hover:bg-[#d63916] text-white shadow-sm"
+                                    }`}
                             >
                                 {isInCart ? (
                                     <>

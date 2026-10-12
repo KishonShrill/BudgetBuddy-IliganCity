@@ -303,6 +303,39 @@
         }
       }
     },
+    "/api/v1/products/search": {
+      "get": {
+        "tags": [
+          "v1 | Product"
+        ],
+        "description": "Public search for products by keyword in name, id, or catalog category",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/v1/products/{id}": {
       "get": {
         "tags": [

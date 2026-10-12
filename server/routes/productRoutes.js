@@ -29,7 +29,34 @@ router.get('/', user_verify, async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-})
+});
+
+router.get('/search', async (req, res) => {
+    // #swagger.tags = ['v1 | Product']
+    // #swagger.description = 'Public search for products by keyword in name, id, or catalog category'
+    try {
+        const query = req.query.q || req.query.search || req.query.name || '';
+        if (!query.trim()) {
+            return res.json([]);
+        }
+        const decoded = decodeURIComponent(query.trim());
+        const escaped = decoded.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(escaped, 'i');
+
+        const products = await Product.find({
+            $or: [
+                { product_name: { $regex: regex } },
+                { product_id: { $regex: regex } },
+                { "category.catalog": { $regex: regex } }
+            ]
+        }).limit(30).lean();
+
+        res.json(products);
+    } catch (error) {
+        console.error('Error searching products:', error);
+        res.status(500).json({ message: error.message });
+    }
+});
 
 
 router.get('/:id', async (req, res) => {

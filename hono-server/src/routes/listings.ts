@@ -30,6 +30,46 @@ listings.get('/', async (c) => {
     }
 });
 
+// GET /api/v1/listings/product/:productId - Fetch all store listings for a given product
+listings.get('/product/:productId', async (c) => {
+    const rawProductId = c.req.param('productId');
+
+    if (!rawProductId) {
+        return c.json({ message: 'productId parameter is required' }, 400);
+    }
+
+    try {
+        let targetProductId = rawProductId;
+
+        if (Types.ObjectId.isValid(rawProductId)) {
+            const sampleListing = await Listing.findById(rawProductId);
+            if (sampleListing && sampleListing.product?.product_id) {
+                targetProductId = sampleListing.product.product_id;
+            }
+        }
+
+        const filter = {
+            $or: [
+                { 'product.product_id': targetProductId },
+                {
+                    'product.product_name': {
+                        $regex: new RegExp(decodeURIComponent(targetProductId).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'),
+                    },
+                },
+            ],
+        };
+
+        const productListings = await Listing.find(filter).sort({ updated_price: 1 });
+        return c.json(productListings);
+    } catch (error: any) {
+        console.error('Error fetching product listings:', error);
+        return c.json(
+            { message: 'Failed to fetch product listings', error: error.message },
+            500
+        );
+    }
+});
+
 // GET /api/v1/listings/:id - Fetch historical price logs for a listing
 listings.get('/:id', async (c) => {
     const listingId = c.req.param('id');

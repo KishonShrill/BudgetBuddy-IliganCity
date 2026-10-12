@@ -7,12 +7,14 @@ import { cn } from "@/helpers/utils";
 interface SearchbarProps {
     type: string;
     placeholder?: string;
+    value?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     children?: React.ReactNode;
 }
 
 const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
-    ({ type, placeholder = "Search", children, onChange }, ref) => {
+    ({ type, placeholder = "Search", value, children, onChange, onKeyDown }, ref) => {
         return (
             <div className="flex w-full items-center gap-2">
                 <div
@@ -45,7 +47,9 @@ const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
                         )}
                         type={type}
                         placeholder={placeholder}
+                        value={value}
                         onChange={onChange}
+                        onKeyDown={onKeyDown}
                     />
                 </div>
                 {children}

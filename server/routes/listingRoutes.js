@@ -34,33 +34,42 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/:id', async (req, res) => {
-    // #swagger.tags = ['v1 | PriceLog']
-    // #swagger.description = 'Fetch historical price logs for a specific listing'
+// Endpoint: Get all listings for a specific product across all stores
+router.get('/product/:productId', async (req, res) => {
+    // #swagger.tags = ['v1 | Listing']
+    // #swagger.description = 'Fetch all store listings for a given product.'
+    const rawProductId = req.params.productId;
 
-    const listingId = req.params.id;
-
-    // Validate if the ID is a valid MongoDB ObjectId format
-    if (!mongoose.Types.ObjectId.isValid(listingId)) {
-        return res.status(400).json({ message: 'Invalid listing ID format' });
+    if (!rawProductId) {
+        return res.status(400).json({ message: 'productId parameter is required' });
     }
 
     try {
-        // Use .find() instead of .findById() because we want an array of logs 
-        // that share this listing_id. We also sort by date_recorded ascending (1).
-        const history = await PriceLog.find({ listing_id: listingId })
-            .sort({ date_recorded: 1 });
+        let targetProductId = rawProductId;
 
-        // We return it wrapped in an object with a 'data' property to match 
-        // what your frontend axios.get call is expecting (response.data.data)
-        res.status(200).json({ data: history });
+        // If rawProductId is a valid ObjectId, it might be a listing _id
+        if (mongoose.Types.ObjectId.isValid(rawProductId)) {
+            const sampleListing = await Listing.findById(rawProductId);
+            if (sampleListing && sampleListing.product?.product_id) {
+                targetProductId = sampleListing.product.product_id;
+            }
+        }
 
+        const filter = {
+            $or: [
+                { "product.product_id": targetProductId },
+                { "product.product_name": { $regex: new RegExp(decodeURIComponent(targetProductId).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i') } }
+            ]
+        };
+
+        // Sort by price ascending so the first is the cheapest
+        const listings = await Listing.find(filter).sort({ updated_price: 1 });
+        return res.json(listings);
     } catch (error) {
-        console.error('Error fetching price history:', error);
-        res.status(500).json({ message: 'Failed to fetch price history', error: error.message });
+        console.error('Error fetching product listings:', error);
+        return res.status(500).json({ message: 'Failed to fetch product listings', error: error.message });
     }
 });
-
 
 router.get('/category/:categoryId', async (req, res) => {
     const categoryId = req.params.categoryId;
@@ -90,6 +99,33 @@ router.get('/category/:categoryId', async (req, res) => {
     } catch (error) {
         console.error(`Error fetching products for category ${categoryId}:`, error);
         res.status(500).json({ message: 'Failed to fetch products by category.', error: error.message });
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    // #swagger.tags = ['v1 | PriceLog']
+    // #swagger.description = 'Fetch historical price logs for a specific listing'
+
+    const listingId = req.params.id;
+
+    // Validate if the ID is a valid MongoDB ObjectId format
+    if (!mongoose.Types.ObjectId.isValid(listingId)) {
+        return res.status(400).json({ message: 'Invalid listing ID format' });
+    }
+
+    try {
+        // Use .find() instead of .findById() because we want an array of logs
+        // that share this listing_id. We also sort by date_recorded ascending (1).
+        const history = await PriceLog.find({ listing_id: listingId })
+            .sort({ date_recorded: 1 });
+
+        // We return it wrapped in an object with a 'data' property to match
+        // what your frontend axios.get call is expecting (response.data.data)
+        res.status(200).json({ data: history });
+
+    } catch (error) {
+        console.error('Error fetching price history:', error);
+        res.status(500).json({ message: 'Failed to fetch price history', error: error.message });
     }
 });
 

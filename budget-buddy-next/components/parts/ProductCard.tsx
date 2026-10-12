@@ -2,7 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
-import { Package, MapPin, Clock, Tag, Plus } from "lucide-react";
+import Link from "next/link";
+import { Package, MapPin, Clock, Tag, Plus, ArrowLeftRight } from "lucide-react";
 import { mongoDateToText } from "@/helpers/date";
 import useSettings from "@/hooks/useSettings";
 
@@ -22,6 +23,7 @@ export interface ProductItem {
     category?: {
         catalog: string;
     };
+    shelf?: string;
 }
 
 interface ProductCardProps {
@@ -86,31 +88,45 @@ const ProductCard = ({ item, onAdd, onViewHistory }: ProductCardProps) => {
                     )}
                 </div>
 
-                <div className="mt-auto flex items-end justify-between">
-                    <div className="flex flex-col">
+                <div className="mt-auto flex items-end justify-between gap-2 pt-2">
+                    <div className="flex flex-col min-w-0">
                         <span className="text-[10px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">Price</span>
                         <span className="text-lg font-black text-orange-500 dark:text-orange-400">
                             ₱{item.updated_price.toFixed(2)}
                         </span>
                     </div>
 
-                    {onAdd && (
-                        <button
-                            data-product-id={item._id}
-                            data-product-name={item.product.product_name}
-                            data-product-price={item.updated_price}
-                            data-product-location={item.location.name}
-                            data-product-image={item.product.imageUrl}
-                            onClick={(e) => {
-                                e.stopPropagation(); // Prevents triggering onViewHistory when clicking 'Add'
-                                onAdd(e);
-                            }}
-                            className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500 dark:bg-orange-600 text-white shadow-md dark:shadow-orange-900/20 transition-transform hover:scale-110 hover:bg-orange-600 dark:hover:bg-orange-500 active:scale-95"
-                            aria-label="Add to cart"
+                    <div className="flex items-center gap-1.5 shrink-0">
+                        <Link
+                            href={`/compare?product=${encodeURIComponent(item.product.product_id || item.product.product_name)}&store=${encodeURIComponent(item.location.id || item.location.name)}`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex h-9 px-2.5 items-center justify-center gap-1 rounded-xl bg-orange-50 hover:bg-orange-100 dark:bg-orange-950/40 dark:hover:bg-orange-900/60 text-orange-600 dark:text-orange-400 text-xs font-semibold border border-orange-200 dark:border-orange-800/60 transition-all hover:scale-105 active:scale-95 shadow-2xs"
+                            title="Compare prices across stores"
+                            aria-label="Compare prices across stores"
                         >
-                            <Plus size={20} strokeWidth={3} />
-                        </button>
-                    )}
+                            <ArrowLeftRight size={13} />
+                            <span className="hidden sm:inline">Compare</span>
+                        </Link>
+
+                        {onAdd && (
+                            <button
+                                data-product-id={item._id}
+                                data-product-name={item.product.product_name}
+                                data-product-price={item.updated_price}
+                                data-product-location={item.location.name}
+                                data-product-image={item.product.imageUrl}
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Prevents triggering onViewHistory when clicking 'Add'
+                                    onAdd(e);
+                                }}
+                                className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-500 dark:bg-orange-600 text-white shadow-md dark:shadow-orange-900/20 transition-transform hover:scale-105 hover:bg-orange-600 dark:hover:bg-orange-500 active:scale-95"
+                                aria-label="Add to cart"
+                                title="Add to cart"
+                            >
+                                <Plus size={18} strokeWidth={3} />
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

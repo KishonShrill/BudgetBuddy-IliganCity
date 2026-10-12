@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { Settings, Menu, X, LayoutDashboard, Package, ShoppingCart, Computer, CircleUserRound, Scroll, ChevronDown, Wallet } from "lucide-react";
+import { Settings, Menu, X, LayoutDashboard, Package, ShoppingCart, Computer, Scroll, ChevronDown, Wallet, ArrowLeftRight } from "lucide-react";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 
@@ -47,11 +47,11 @@ const Header = () => {
     // 1. Define routes where we DO NOT want to fetch location data
     const excludedRoutes = new Set([
         '/', '/authenticate', '/profile', '/budget-hub',
-        '/report', '/locations', '/docs', '/dev-mode'
+        '/report', '/locations', '/docs', '/dev-mode', '/compare'
     ]);
 
     // Check if the current route should skip the fetch
-    const isExcluded = excludedRoutes.has(currentLocation);
+    const isExcluded = excludedRoutes.has(currentLocation) || currentLocation.startsWith('/compare');
 
     // 2. Extract the location ID from the URL safely
     const getLocationId = () => {
@@ -105,11 +105,13 @@ const Header = () => {
                 isDropdown: true,
                 subLinks: [
                     { to: "/locations", label: "Groceries", icon: <Package size={18} /> },
+                    { to: "/compare", label: "Compare", icon: <ArrowLeftRight size={18} /> },
                     { to: "/receipt", label: "Receipt", icon: <ShoppingCart size={18} /> },
                 ]
             }]
             : [
                 { to: "/locations", label: "Groceries", icon: <Package size={18} /> },
+                { to: "/compare", label: "Compare", icon: <ArrowLeftRight size={18} /> },
                 { to: "/receipt", label: "Receipt", icon: <ShoppingCart size={18} /> }
             ]),
     ];

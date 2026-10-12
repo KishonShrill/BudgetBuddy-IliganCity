@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo } from 'react';
+import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ArrowLeftRight } from 'lucide-react';
 import useFetchPriceHistory from '@/hooks/useFetchPriceHistory';
 
 // 1. Define the TypeScript interfaces for your props and data structure
@@ -12,9 +13,11 @@ export interface ListingData {
     updated_price: number;
     date_updated: string;
     product: {
+        product_id?: string;
         product_name: string;
     };
     location: {
+        id?: string;
         name: string;
     };
 }
@@ -68,6 +71,14 @@ export default function PriceHistoryModal({ isOpen, onClose, listing }: PriceHis
         return formattedHistory;
     }, [history, listing]);
 
+    const compareUrl = useMemo(() => {
+        if (!listing) return '/compare';
+        const productId = listing.product?.product_id || listing.product?.product_name;
+        const storeId = listing.location?.id || listing.location?.name;
+        if (!productId) return '/compare';
+        return `/compare?product=${encodeURIComponent(productId)}${storeId ? `&store=${encodeURIComponent(storeId)}` : ''}`;
+    }, [listing]);
+
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
             <DialogContent className="sm:max-w-lg bg-white dark:bg-gray-900 dark:border-gray-800 dark:text-gray-100 transition-colors duration-300">
@@ -91,7 +102,7 @@ export default function PriceHistoryModal({ isOpen, onClose, listing }: PriceHis
                     ) : chartData.length < 2 ? (
                         <div className="text-center text-gray-500 dark:text-gray-400 text-sm">
                             <p>Not enough data yet.</p>
-                            <p className="text-xs mt-1 opacity-70">This price hasn't fluctuated since it was listed.</p>
+                            <p className="text-xs mt-1 opacity-70">This price hasn&apos;t fluctuated since it was listed.</p>
                         </div>
                     ) : (
                         <div className="h-[250px] w-full">
@@ -128,6 +139,22 @@ export default function PriceHistoryModal({ isOpen, onClose, listing }: PriceHis
                         </div>
                     )}
                 </div>
+
+                {listing && (
+                    <div className="pt-3 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                            Compare prices across other stores
+                        </span>
+                        <Link
+                            href={compareUrl}
+                            onClick={onClose}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold shadow-sm transition-all hover:scale-105 active:scale-95"
+                        >
+                            <ArrowLeftRight size={14} />
+                            <span>Compare Stores</span>
+                        </Link>
+                    </div>
+                )}
             </DialogContent>
         </Dialog>
     );

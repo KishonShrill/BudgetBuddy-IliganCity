@@ -208,7 +208,7 @@ router.post('/', user_verify, requireRole("moderator"), upload.single('imageUrl'
 });
 
 
-router.put('/:id', user_verify, requireRole("moderator"), upload.single('productImage'), async (req, res) => {
+router.put('/:id', user_verify, requireRole("moderator"), upload.single('imageUrl'), async (req, res) => {
     // #swagger.tags = ['v1 | Product']
     // #swagger.description = 'Update a product information by MongoDB _id'
     const id = req.params.id;

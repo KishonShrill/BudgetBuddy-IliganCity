@@ -147,15 +147,16 @@ export default function ListingForm() {
 
         try {
             // 2. Send ONE request based on whether it's a single edit or a bulk creation
+            let response;
             if (isEdit) {
-                await axios.put(`${saveListingUrl}/${listingId}`, bulkPayload[0], {
+                response = await axios.put(`${saveListingUrl}/${listingId}`, bulkPayload[0], {
                     headers: { Authorization: `Bearer ${Cookies.get("budgetbuddy_token")}` }
                 });
             } else {
                 const targetUrl = isBulk ? `${saveListingUrl}/bulk` : saveListingUrl;
                 const dataToSend = isBulk ? bulkPayload : bulkPayload[0];
 
-                await axios.post(targetUrl, dataToSend, {
+                response = await axios.post(targetUrl, dataToSend, {
                     headers: { Authorization: `Bearer ${Cookies.get("budgetbuddy_token")}` }
                 });
             }
@@ -163,7 +164,16 @@ export default function ListingForm() {
             // v5 syntax
             queryClient.invalidateQueries({ queryKey: ['fetchedListings_Admin'] });
 
-            addToast("Success", `Successfully ${isEdit ? 'updated' : 'created'} ${baseProducts.length} listing(s)!`, "success");
+            // Handle different response cases
+            const responseData = response.data;
+            if (isEdit && responseData.priceLogCreated === false) {
+                // Price didn't change
+                addToast("No Changes", responseData.message || "The price remains the same.", "default");
+            } else {
+                // Successfully created or updated with price change
+                const message = responseData.message || `Successfully ${isEdit ? 'updated' : 'created'} ${baseProducts.length} listing(s)!`;
+                addToast("Success", message, "success");
+            }
 
             // Clean up session storage before leaving
             sessionStorage.removeItem('listing_transfer_data');

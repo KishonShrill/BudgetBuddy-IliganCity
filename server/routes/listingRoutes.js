@@ -265,17 +265,45 @@ router.put('/:id', user_verify, requireRole("moderator"), async (req, res) => {
             return res.status(404).json({ message: "Listing not found." });
         }
 
-        // 2. Compare prices. We only want to log it if the price ACTUALLY changed.
-        // (This prevents logging if the admin just fixed a typo in the category)
-        if (updatePayload.updated_price && existingListing.updated_price !== updatePayload.updated_price) {
+        let priceLogCreated = false;
 
-            // 3. Save the OLD price and OLD date to the PriceLog
-            await PriceLog.create({
-                listing_id: existingListing._id,
-                old_price: existingListing.updated_price,
-                // Fallback to current date if the old listing somehow lacked a date
-                date_recorded: existingListing.date_updated || new Date()
+        // 2. Compare prices with explicit type conversion to avoid type coercion issues
+        if (updatePayload.updated_price !== undefined) {
+            const oldPrice = Number(existingListing.updated_price);
+            const newPrice = Number(updatePayload.updated_price);
+
+            console.log('[PriceLog Debug]', {
+                listingId: id,
+                oldPrice,
+                newPrice,
+                isDifferent: oldPrice !== newPrice,
+                payloadType: typeof updatePayload.updated_price,
+                existingType: typeof existingListing.updated_price
             });
+
+            // If price hasn't changed, return early with informative message
+            if (oldPrice === newPrice) {
+                return res.status(200).json({
+                    message: 'No price change detected. The price remains the same.',
+                    listing: existingListing,
+                    priceLogCreated: false
+                });
+            }
+
+            // 3. Price changed - save the OLD price and OLD date to the PriceLog
+            try {
+                const priceLog = await PriceLog.create({
+                    listing_id: existingListing._id,
+                    old_price: oldPrice,
+                    // Fallback to current date if the old listing somehow lacked a date
+                    date_recorded: existingListing.date_updated || new Date()
+                });
+                priceLogCreated = true;
+                console.log('[PriceLog Created]', priceLog._id);
+            } catch (priceLogError) {
+                console.error('[PriceLog Error]', priceLogError);
+                // Continue with update even if price logging fails
+            }
         }
 
         // 4. Now perform your original update logic using ResultAsync
@@ -286,8 +314,9 @@ router.put('/:id', user_verify, requireRole("moderator"), async (req, res) => {
             .match(
                 (savedListing) => {
                     return res.status(200).json({
-                        message: 'Listing updated successfully!',
+                        message: 'Listing updated successfully!' + (priceLogCreated ? ' Price change logged.' : ''),
                         listing: savedListing,
+                        priceLogCreated
                     });
                 },
                 (error) => {
